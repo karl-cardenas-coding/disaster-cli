@@ -45,8 +45,16 @@ var eventsCmd = &cobra.Command{
   Long:  `Return all defined events in the world`,
   Run: func(cmd *cobra.Command, args []string) {
     //TODO add code to query API
-  url := "https://eonet.sci.gsfc.nasa.gov/api/v2.1/events?api_key=bhKzxWngdTEBCJLSnmIMLW5KqAjVPqEOKCdqK6Wn"
 
+  // Retrive api key if flag parameter is passed down
+  apikey := Apikey
+
+  if apikey == "" {
+    apikey = "bhKzxWngdTEBCJLSnmIMLW5KqAjVPqEOKCdqK6Wn"
+  }
+
+  url := fmt.Sprintf("%s,%s", "https://eonet.sci.gsfc.nasa.gov/api/v3/events?api_key=",apikey)
+  fmt.Println(url)
   resp, err := http.Get(url)
   if err != nil {
   	fmt.Println("Error:", err)
@@ -58,7 +66,6 @@ var eventsCmd = &cobra.Command{
   if err := json.NewDecoder(resp.Body).Decode(&records); err != nil {
 		log.Println(err)
 	}
-
   fmt.Printf("There are currently %v natural catastrophe events occuring in the world.\n\n", len(records.Events))
   for _,v := range records.Events {
     // var lat  float64
