@@ -3,7 +3,10 @@ A Golang based CLI too for determining natural catastrophe near you, or a locati
 
 Golang Framework:https://github.com/spf13/cobra
 
-Source: https://eonet.sci.gsfc.nasa.gov/docs/v2.1
+Go-pretty: https://github.com/jedib0t/go-pretty
+
+Source: https://eonet.sci.gsfc.nasa.gov/docs/v3
+
 
 UI: https://worldview.earthdata.nasa.gov/
 
@@ -37,6 +40,7 @@ https://eonet.sci.gsfc.nasa.gov/api/v3/events
   ]
 }
 ```
+
 
 ## API Web Service Rate Limits
 Limits are placed on the number of API requests you may make using your API key. Rate limits may vary by service, but the defaults are:

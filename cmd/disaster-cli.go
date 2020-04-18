@@ -6,6 +6,8 @@ import (
   "github.com/spf13/cobra"
 )
 var Apikey string
+var Output string
+
 var rootCmd = &cobra.Command{
   Use:   "disaster-cli",
   Short: "A CLI too for determining natural catastrophe near you, or a location specified",
@@ -17,6 +19,7 @@ Please issue "disaster-cli help" for further guidance.`)
 }
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&Apikey, "api-key", "a", "", "Override default apikey from nasa.gov")
+	rootCmd.PersistentFlags().StringVarP(&Output, "output", "o", "table", "Output formats options: table | text")
 }
 
 func Execute() {
