@@ -7,7 +7,7 @@ on:
 jobs:
 
   linux-386:
-    name: Build
+    name: linux-386
     runs-on: ubuntu-latest
     steps:
 
@@ -35,7 +35,7 @@ jobs:
       run: go build -o disaster-cli-$GOOS-$GOARCH -v
 
   linux-amd64:
-    name: Build
+    name: linux-amd64
     runs-on: ubuntu-latest
     steps:
 
@@ -63,7 +63,7 @@ jobs:
       run: go build -o disaster-cli-$GOOS-$GOARCH -v
 
   darwin-386:
-    name: Build
+    name: darwin-386
     runs-on: ubuntu-latest
     steps:
 
@@ -91,7 +91,7 @@ jobs:
       run: go build -o disaster-cli-$GOOS-$GOARCH -v
 
   darwin-and64:
-    name: Build
+    name: darwin-and64
     runs-on: ubuntu-latest
     steps:
 
@@ -119,7 +119,7 @@ jobs:
       run: go build -o disaster-cli-$GOOS-$GOARCH -
 
   windows-386:
-    name: Build
+    name: windows-386
     runs-on: ubuntu-latest
     steps:
 
@@ -147,7 +147,7 @@ jobs:
       run: go build -o disaster-cli-$GOOS-$GOARCH -v
 
   windows-amd64:
-    name: Build
+    name: windows-amd64
     runs-on: ubuntu-latest
     steps:
 
