@@ -2,12 +2,14 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"os"
+
+	"github.com/spf13/cobra"
 )
 
-var Apikey string
-var Output string
+var ApikeyFlag string
+var OutputFlag string
+var DisplayMapFlag bool
 
 var rootCmd = &cobra.Command{
 	Use:   "disaster-cli",
@@ -20,8 +22,9 @@ Please issue "disaster-cli help" for further guidance.`)
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&Apikey, "api-key", "a", "", "Override default apikey from nasa.gov")
-	rootCmd.PersistentFlags().StringVarP(&Output, "output", "o", "table", "Output formats options: table | text")
+	rootCmd.PersistentFlags().StringVarP(&ApikeyFlag, "api-key", "a", "", "Override default apikey from nasa.gov")
+	rootCmd.PersistentFlags().StringVarP(&OutputFlag, "output", "o", "text", "Output format options: table | text | json")
+	eventsCmd.Flags().BoolVarP(&DisplayMapFlag, "display-map", "d", false, "Displays the Google Maps URL")
 }
 
 func Execute() {

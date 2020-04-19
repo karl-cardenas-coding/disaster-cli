@@ -23,3 +23,20 @@ For each API key, these limits are applied across all api.nasa.gov API requests.
 For more info visit https://api.nasa.gov/
 
 **Note**: To generate an API key visit https://api.nasa.gov/
+
+### Synopsis
+
+A Golang based CLI too for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.
+
+```
+disaster-cli [flags]
+disaster-cli version [flags]
+disaster-cli events [flags]
+
+```
+
+### Usage
+
+* [disaster-cli](disaster-cli.md)	 - A CLI too for determining natural catastrophe near you, or a location specified
+* [events](disaster-cli_events.md)	 - Returns all events occurring in the world at this point in time.
+* [version](disaster-cli_version.md)	 - Print the version number of disaster-cli
