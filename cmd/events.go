@@ -61,10 +61,6 @@ var eventsCmd = &cobra.Command{
 		outputFlag := OutputFlag
 		displayMapFlag := DisplayMapFlag
 
-		if apikey == "" {
-			apikey = "bhKzxWngdTEBCJLSnmIMLW5KqAjVPqEOKCdqK6Wn"
-		}
-
 		records := library.QueryAPI(apikey)
 
 		// Output flag
