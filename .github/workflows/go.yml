@@ -2,13 +2,11 @@ name: Go
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches-ignore: [ master ]
 
 jobs:
 
-  build:
+  test:
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -30,5 +28,16 @@ jobs:
             dep ensure
         fi
 
-    - name: Build
-      run: go build -v .
+    - name: test
+      run: |
+        go run main.go
+        go run main.go version
+        go run main.go events
+        go run main.go events -o table
+        go run main.go events -d
+        go run main.go events -o json
+        echo "--------------------------------------------------"
+        go build -v
+        ./disaster-cli events -d
+        ./disaster-cli events -o table
+        ./disaster-cli events -o json
