@@ -1,3 +1,4 @@
+![Go](https://github.com/karl-cardenas-coding/disaster-cli/workflows/Go/badge.svg?branch=master)
 # Natural Catastrophe CLI
 A Golang based CLI too for determining natural catastrophe near you, or a location specified.
 
