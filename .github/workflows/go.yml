@@ -30,7 +30,14 @@ jobs:
 
     - name: test
       run: |
-        go build -v .
-        ./disaster-cli help
-        ./disaster-cli events
-        ./disater-cli version
+        go run main.go
+        go run main.go version
+        go run main.go events
+        go run main.go events -o table
+        go run main.go events -d
+        go run main.go events -o json
+        echo "--------------------------------------------------"
+        go build -v
+        ./disaster-cli events -d
+        ./disaster-cli events -o table
+        ./disaster-cli events -o json
