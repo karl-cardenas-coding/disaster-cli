@@ -37,3 +37,15 @@ disaster-cli events [flags]
 * [disaster-cli](disaster-cli.md)	 - A CLI too for determining natural catastrophe near you, or a location specified
 * [events](disaster-cli_events.md)	 - Returns all events occurring in the world at this point in time.
 * [version](disaster-cli_version.md)	 - Print the version number of disaster-cli
+
+### Maintenance
+https://github.com/marketplace/actions/github-tag
+
+
+| Commit message                                                                                                                                                                                   | Release type  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
+| `fix(pencil): stop graphite breaking when too much pressure applied`                                                                                                                             | Patch Release |
+| `feat(pencil): add 'graphiteWidth' option`                                                                                                                                                       | Minor Release |
+| `perf(pencil): remove graphiteWidth option`<br><br>`BREAKING CHANGE: The graphiteWidth option has been removed.`<br>`The default graphite width of 10mm is always used for performance reasons.` | Major Release |
+
+If no commit message contains any information, then **default_bump** will be used.
