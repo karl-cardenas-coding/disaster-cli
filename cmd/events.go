@@ -124,6 +124,10 @@ var eventsCmd = &cobra.Command{
 		if outputFlag == "text" {
 
 			for _, v := range records.Events {
+
+				// URL to form Google Map link:  https://www.google.com/maps/@?api=1&map_action=map&center=-37.29356,-71.95059&zoom=6&basemap=terrain
+				// The coordinates received from the events payload need to be revered in the URL:
+				// https://eonet.sci.gsfc.nasa.gov/api/v3/events
 				var lat, long float64
 				lat, long = getLocation(v.Geometry[0].(map[string]interface{}))
 				mapLink := fmt.Sprintf("https://www.google.com/maps/@?api=1&map_action=map&center=%v,%v&zoom=6&basemap=terrain", long, lat)

@@ -10,9 +10,6 @@ Source: https://eonet.sci.gsfc.nasa.gov/docs/v3
 
 UI: https://worldview.earthdata.nasa.gov/
 
-URL to FORM:  https://www.google.com/maps/@?api=1&map_action=map&center=-37.29356,-71.95059&zoom=12&basemap=terrain
-**NOTE** The coordinates received from the events payload need to be revered in the URL:
-https://eonet.sci.gsfc.nasa.gov/api/v3/events
 
 ## API Web Service Rate Limits
 Limits are placed on the number of API requests you may make using your API key. Rate limits may vary by service, but the defaults are:
