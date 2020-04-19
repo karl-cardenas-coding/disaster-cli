@@ -90,8 +90,8 @@ jobs:
     - name: create
       run: go build -o disaster-cli-$GOOS-$GOARCH -v
 
-  darwin-and64:
-    name: darwin-and64
+  darwin-anm64:
+    name: darwin-anm64
     runs-on: ubuntu-latest
     steps:
 
@@ -101,7 +101,7 @@ jobs:
         go-version: 1.14
       id: go
       env:
-        GOARCH: "amd64"
+        GOARCH: amd64
         GOOS: darwin
 
     - name: Check out code into the Go module directory
