@@ -22,7 +22,6 @@ jobs:
           release_name: Release ${{ github.ref }}
           body: |
             Changes in this Release
-            - First Change
-            - Second Change
+            - Initial deploy binary
           draft: false
           prerelease: false
