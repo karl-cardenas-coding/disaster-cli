@@ -1,4 +1,4 @@
-module disaster-cli
+module github.com/karl-cardenas-coding/disaster-cli
 
 go 1.14
 

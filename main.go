@@ -1,7 +1,7 @@
 package main
 
 import (
-	"disaster-cli/cmd"
+	"github.com/karl-cardenas-coding/disaster-cli/cmd"
 )
 
 func main() {

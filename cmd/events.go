@@ -3,12 +3,10 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"log"
-	"net/http"
 	"os"
-	"time"
 
 	"github.com/jedib0t/go-pretty/table"
+	"github.com/karl-cardenas-coding/disaster-cli/library"
 	"github.com/spf13/cobra"
 )
 
@@ -19,7 +17,7 @@ func init() {
 }
 
 // Function for displaying the data in a table
-func outputTable(records Response) {
+func outputTable(records library.Response) {
 	// var lat, long float64
 
 	t := table.NewWriter()
@@ -51,57 +49,6 @@ func getLocation(input map[string]interface{}) (float64, float64) {
 	return lat, long
 }
 
-func queryAPI(apikey string) Response {
-	url := fmt.Sprintf("https://eonet.sci.gsfc.nasa.gov/api/v3/events?api_key=%s", apikey)
-
-	resp, err := http.Get(url)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-	defer resp.Body.Close()
-
-	var records Response
-
-	if err := json.NewDecoder(resp.Body).Decode(&records); err != nil {
-		log.Println(err)
-	}
-
-	return records
-
-}
-
-type Response struct {
-	Title       string   `json:"title"`
-	Description string   `json:"description"`
-	Link        string   `json:"link"`
-	Events      []Events `json:"events"`
-}
-type Categories struct {
-	ID    string `json:"id"`
-	Title string `json:"title"`
-}
-type Sources struct {
-	ID  string `json:"id"`
-	URL string `json:"url"`
-}
-type Geometry struct {
-	MagnitudeValue float64   `json:"magnitudeValue"`
-	MagnitudeUnit  string    `json:"magnitudeUnit"`
-	Date           time.Time `json:"date"`
-	Type           string    `json:"type"`
-	Coordinates    []float64 `json:"coordinates"`
-}
-type Events struct {
-	ID          string        `json:"id"`
-	Title       string        `json:"title"`
-	Description interface{}   `json:"description"`
-	Link        string        `json:"link"`
-	Closed      interface{}   `json:"closed"`
-	Categories  []Categories  `json:"categories"`
-	Sources     []Sources     `json:"sources"`
-	Geometry    []interface{} `json:"geometry"`
-}
-
 var eventsCmd = &cobra.Command{
 	Use:   "events",
 	Short: "Returns all events occuring in the world at this point in time.",
@@ -118,7 +65,7 @@ var eventsCmd = &cobra.Command{
 			apikey = "bhKzxWngdTEBCJLSnmIMLW5KqAjVPqEOKCdqK6Wn"
 		}
 
-		records := queryAPI(apikey)
+		records := library.QueryAPI(apikey)
 
 		// Output flag
 		if outputFlag == "text" {
