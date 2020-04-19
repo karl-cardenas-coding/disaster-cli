@@ -31,6 +31,6 @@ jobs:
     - name: test
       run: |
         go build -v .
-        ./disaster help
+        ./disaster-cli help
         ./disaster-cli events
         ./disater-cli version
