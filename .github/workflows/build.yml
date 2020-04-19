@@ -90,8 +90,8 @@ jobs:
     - name: create
       run: go build -o disaster-cli-$GOOS-$GOARCH -v
 
-  darwin-anm64:
-    name: darwin-anm64
+  darwin-amd64:
+    name: darwin-amd64
     runs-on: ubuntu-latest
     steps:
 
@@ -116,7 +116,7 @@ jobs:
         fi
 
     - name: create
-      run: go build -o disaster-cli-$GOOS-$GOARCH -
+      run: go build -o disaster-cli-$GOOS-$GOARCH -v
 
   windows-386:
     name: windows-386
