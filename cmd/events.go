@@ -11,13 +11,11 @@ import (
 )
 
 func init() {
-	// var DisplayMap bool
 	rootCmd.AddCommand(eventsCmd)
-	// eventsCmd.Flags().BoolVarP(&DisplayMap, "display-map", "dm", false, "Displays the Google Maps URL")
 }
 
 // Function for displaying the data in a table
-func outputTable(records library.Response) {
+func outputTable(records library.EventResponse) {
 	// var lat, long float64
 
 	t := table.NewWriter()
@@ -61,7 +59,7 @@ var eventsCmd = &cobra.Command{
 		outputFlag := OutputFlag
 		displayMapFlag := DisplayMapFlag
 
-		records := library.QueryAPI(apikey)
+		records := library.QueryEventAPI(apikey)
 
 		// Output flag
 		if outputFlag == "text" {
@@ -97,6 +95,5 @@ var eventsCmd = &cobra.Command{
 			}
 			os.Stdout.Write(json)
 		}
-		// Output flag logic end
 	},
 }
