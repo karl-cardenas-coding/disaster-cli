@@ -3,8 +3,10 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"log"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/cobra/doc"
 )
 
 var ApikeyFlag string
@@ -27,7 +29,7 @@ Usage:
 
 Available Commands:
   categories  Prints all the unique categories of all the events
-  events      Returns all events occuring in the world at this point in time.
+  events      Returns all events occurring in the world at this point in time.
   help        Help about any command
   version     Print the version number of disaster-cli
 
@@ -37,6 +39,10 @@ Flags:
   -o, --output string    Output format options: table | text | json (default "text")
 
 Use "disaster-cli [command] --help" for more information about a command.`)
+err := doc.GenMarkdownTree(cmd, ".")
+	if err != nil {
+		log.Fatal(err)
+	}
 	},
 }
 

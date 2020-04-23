@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// Event Strcuture
 type EventResponse struct {
 	Title       string   `json:"title"`
 	Description string   `json:"description"`
@@ -35,7 +36,7 @@ type Events struct {
 	Sources     []Sources     `json:"sources"`
 	Geometry    []interface{} `json:"geometry"`
 }
-
+// Categories Strcuture
 type CategoriesResponse struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`

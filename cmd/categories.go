@@ -32,7 +32,7 @@ func outputCategoriesTable(records library.CategoriesResponse) {
 var categoriesCmd = &cobra.Command{
 	Use:   "categories",
 	Short: "Prints all the unique categories of all the events",
-	Long: `Prints all the unique categories of all the events occuring right now.
+	Long: `Prints all the unique categories of all the events occurring right now.
 The returned category may be used with the --filter flag for the event cmd.`,
 	Run: func(cmd *cobra.Command, args []string) {
 

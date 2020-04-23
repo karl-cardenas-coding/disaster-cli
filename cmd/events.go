@@ -49,7 +49,7 @@ func getLocation(input map[string]interface{}) (float64, float64) {
 
 var eventsCmd = &cobra.Command{
 	Use:   "events",
-	Short: "Returns all events occuring in the world at this point in time.",
+	Short: "Returns all events occurring in the world at this point in time.",
 	Long:  `Return all defined events in the world`,
 	Args:  cobra.MaximumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {

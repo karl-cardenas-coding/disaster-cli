@@ -1,18 +1,7 @@
 ![Go](https://github.com/karl-cardenas-coding/disaster-cli/workflows/Go/badge.svg?branch=master)
 ![Go version](https://img.shields.io/github/go-mod/go-version/karl-cardenas-coding/disaster-cli)
-# Natural Catastrophe CLI
+# Natural Disaster CLI
 A Golang based CLI too for determining natural catastrophe near you, or a location specified. [Earth Observatory Natural Event Tracker (EONET)](https://eonet.sci.gsfc.nasa.gov/what-is-eonet) is the source for all Data.
-
-API Documentation:  https://eonet.sci.gsfc.nasa.gov/docs/v3
-
-Golang Framework:https://github.com/spf13/cobra
-
-Go-pretty: https://github.com/jedib0t/go-pretty
-
-Source: https://eonet.sci.gsfc.nasa.gov/docs/v3
-
-
-UI: https://worldview.earthdata.nasa.gov/
 
 
 ## API Web Service Rate Limits
@@ -25,22 +14,40 @@ For more info visit https://api.nasa.gov/
 
 **Note**: To generate an API key visit https://api.nasa.gov/
 
-### Synopsis
+## Installation
+Disaster-cli is distributed as a single binary. Install Disaster-cli by unzipping it and moving it to a directory included in your system's [PATH](https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them).
 
-A Golang based CLI too for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.
+
+## Usage
 
 ```
 disaster-cli [flags]
 disaster-cli version [flags]
 disaster-cli events [flags]
+disaster-cli categories [flags]
 
 ```
 
-### Usage
-
 * [disaster-cli](disaster-cli.md)	 - A CLI too for determining natural catastrophe near you, or a location specified
 * [events](disaster-cli_events.md)	 - Returns all events occurring in the world at this point in time.
+* [categories](disaster-cli_categories.md) - Prints all the unique categories of all the events.
 * [version](disaster-cli_version.md)	 - Print the version number of disaster-cli
 
-### Maintenance
-Work in progress
+## Contributing to Disaster-CLI
+
+For a complete guide to contributing to disaster-cli , see the [Contribution Guide](CONTRIBUTING.md).
+
+Contributions to disaster-cli of any kind including documentation, organization, tutorials, blog posts, bug reports, issues, feature requests, feature implementations, pull requests, answering questions on the forum, helping to manage issues, etc.
+
+## Helpful Links
+
+API Documentation:  https://eonet.sci.gsfc.nasa.gov/docs/v3
+
+Golang Framework:https://github.com/spf13/cobra
+
+Go-pretty: https://github.com/jedib0t/go-pretty
+
+Source: https://eonet.sci.gsfc.nasa.gov/docs/v3
+
+
+UI: https://worldview.earthdata.nasa.gov/
