@@ -1,19 +1,20 @@
-## disaster-cli version
+## disaster-cli categories
 
-Print the version number of disaster-cli
+Prints all the unique categories of all the events
 
 ### Synopsis
 
-Prints the version number of disaster-cli
+Prints all the unique categories of all the events occurring right now.
+The returned category may be used with the --filter flag for the event cmd.
 
 ```
-disaster-cli version [flags]
+disaster-cli categories [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for version
+  -h, --help   help for categories
 ```
 
 ### Options inherited from parent commands
