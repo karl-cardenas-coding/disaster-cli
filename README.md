@@ -1,7 +1,9 @@
 ![Go](https://github.com/karl-cardenas-coding/disaster-cli/workflows/Go/badge.svg?branch=master)
 ![Go version](https://img.shields.io/github/go-mod/go-version/karl-cardenas-coding/disaster-cli)
 
-![gopher](./static/img/disaster-gopher.png)
+<div style="text-align:center"> 
+  <img src="/static/img/disaster-gopher.png" alt="drawing" height="400" width="400"/>
+</div>
 
 # Natural Disaster CLI
 A Golang based CLI too for determining natural catastrophe near you, or a location specified. [Earth Observatory Natural Event Tracker (EONET)](https://eonet.sci.gsfc.nasa.gov/what-is-eonet) is the source for all Data.
