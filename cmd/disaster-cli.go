@@ -16,7 +16,7 @@ var DisplayMapFlag bool
 // var FilterFlag []string
 
 var rootCmd = &cobra.Command{
-	Use:   "disaster-cli",
+	Use:   "disaster",
 	Short: "A CLI too for determining natural catastrophe near you, or a location specified",
 	Long:  `A Golang based CLI too for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -24,8 +24,8 @@ var rootCmd = &cobra.Command{
 A Golang based CLI too for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.
 
 Usage:
-  disaster-cli [flags]
-  disaster-cli [command]
+  disaster [flags]
+  disaster [command]
 
 Available Commands:
   categories  Prints all the unique categories of all the events
@@ -38,8 +38,8 @@ Flags:
   -h, --help             help for disaster-cli
   -o, --output string    Output format options: table | text | json (default "text")
 
-Use "disaster-cli [command] --help" for more information about a command.`)
-		err := doc.GenMarkdownTree(cmd, ".")
+Use "disaster [command] --help" for more information about a command.`)
+		err := doc.GenMarkdownTree(cmd, "./documentation/")
 		if err != nil {
 			log.Fatal(err)
 		}
