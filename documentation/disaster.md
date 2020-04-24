@@ -14,6 +14,7 @@ disaster [flags]
 
 ```
   -a, --api-key string   Override default apikey from nasa.gov
+  -c, --documentation    Generate documentation
   -h, --help             help for disaster
   -o, --output string    Output format options: table | text | json (default "text")
 ```

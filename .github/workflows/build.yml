@@ -32,7 +32,7 @@ jobs:
         fi
 
     - name: create
-      run: go build -o disaster-cli-$GOOS-$GOARCH -v
+      run: go build -o disaster-$GOOS-$GOARCH -v
 
   linux-amd64:
     name: linux-amd64
@@ -60,7 +60,7 @@ jobs:
         fi
 
     - name: create
-      run: go build -o disaster-cli-$GOOS-$GOARCH -v
+      run: go build -o disaster-$GOOS-$GOARCH -v
 
   darwin-386:
     name: darwin-386
@@ -88,7 +88,7 @@ jobs:
         fi
 
     - name: create
-      run: go build -o disaster-cli-$GOOS-$GOARCH -v
+      run: go build -o disaster-$GOOS-$GOARCH -v
 
   darwin-amd64:
     name: darwin-amd64
@@ -116,7 +116,7 @@ jobs:
         fi
 
     - name: create
-      run: go build -o disaster-cli-$GOOS-$GOARCH -v
+      run: go build -o disaster-$GOOS-$GOARCH -v
 
   windows-386:
     name: windows-386
@@ -144,7 +144,7 @@ jobs:
         fi
 
     - name: create
-      run: go build -o disaster-cli-$GOOS-$GOARCH -v
+      run: go build -o disaster-$GOOS-$GOARCH -v
 
   windows-amd64:
     name: windows-amd64
@@ -172,4 +172,4 @@ jobs:
         fi
 
     - name: create
-      run: go build -o disaster-cli-$GOOS-$GOARCH -v
+      run: go build -o disaster-$GOOS-$GOARCH -v

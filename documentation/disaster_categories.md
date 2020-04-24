@@ -21,6 +21,7 @@ disaster categories [flags]
 
 ```
   -a, --api-key string   Override default apikey from nasa.gov
+  -c, --documentation    Generate documentation
   -o, --output string    Output format options: table | text | json (default "text")
 ```
 

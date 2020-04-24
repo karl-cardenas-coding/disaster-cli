@@ -12,6 +12,7 @@ import (
 var ApikeyFlag string
 var OutputFlag string
 var DisplayMapFlag bool
+var GenerateDocFlag bool
 
 // var FilterFlag []string
 
@@ -20,6 +21,7 @@ var rootCmd = &cobra.Command{
 	Short: "A CLI too for determining natural catastrophe near you, or a location specified",
 	Long:  `A Golang based CLI too for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		generateDocFlag := GenerateDocFlag
 		fmt.Println(`
 A Golang based CLI too for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.
 
@@ -34,21 +36,25 @@ Available Commands:
   version     Print the version number of disaster-cli
 
 Flags:
-  -a, --api-key string   Override default apikey from nasa.gov
-  -h, --help             help for disaster-cli
-  -o, --output string    Output format options: table | text | json (default "text")
+ -a, --api-key string   Override default apikey from nasa.gov
+ -c, --documentation    Generate documentation
+ -h, --help             help for disaster
+ -o, --output string    Output format options: table | text | json (default "text")
 
 Use "disaster [command] --help" for more information about a command.`)
+	if generateDocFlag {
 		err := doc.GenMarkdownTree(cmd, "./documentation/")
 		if err != nil {
 			log.Fatal(err)
 		}
+	}
 	},
 }
 
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&ApikeyFlag, "api-key", "a", "", "Override default apikey from nasa.gov")
 	rootCmd.PersistentFlags().StringVarP(&OutputFlag, "output", "o", "text", "Output format options: table | text | json")
+	rootCmd.PersistentFlags().BoolVarP(&GenerateDocFlag, "documentation", "c", false, "Generate documentation")
 	eventsCmd.Flags().BoolVarP(&DisplayMapFlag, "display-map", "d", false, "Displays the Google Maps URL")
 }
 
