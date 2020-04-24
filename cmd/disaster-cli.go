@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 	"log"
+	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
@@ -39,10 +39,10 @@ Flags:
   -o, --output string    Output format options: table | text | json (default "text")
 
 Use "disaster-cli [command] --help" for more information about a command.`)
-err := doc.GenMarkdownTree(cmd, ".")
-	if err != nil {
-		log.Fatal(err)
-	}
+		err := doc.GenMarkdownTree(cmd, ".")
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 

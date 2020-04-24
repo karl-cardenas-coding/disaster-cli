@@ -30,6 +30,7 @@ jobs:
 
     - name: test
       run: |
+        go test -coverprofile=go.out ./...
         go run main.go
         go run main.go version
         go run main.go events

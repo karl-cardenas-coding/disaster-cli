@@ -33,10 +33,10 @@ disaster-cli categories [flags]
 
 ```
 
-* [disaster-cli](disaster-cli.md)	 - A CLI too for determining natural catastrophe near you, or a location specified
-* [events](disaster-cli_events.md)	 - Returns all events occurring in the world at this point in time.
-* [categories](disaster-cli_categories.md) - Prints all the unique categories of all the events.
-* [version](disaster-cli_version.md)	 - Print the version number of disaster-cli
+* [disaster-cli](/documentation/disaster-cli.md)	 - A CLI too for determining natural catastrophe near you, or a location specified
+* [events](/documentation/disaster-cli_events.md)	 - Returns all events occurring in the world at this point in time.
+* [categories](/documentation/disaster-cli_categories.md) - Prints all the unique categories of all the events.
+* [version](/documentation/disaster-cli_version.md)	 - Print the version number of disaster-cli
 
 ## Contributing to Disaster-CLI
 

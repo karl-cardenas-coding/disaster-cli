@@ -36,6 +36,7 @@ type Events struct {
 	Sources     []Sources     `json:"sources"`
 	Geometry    []interface{} `json:"geometry"`
 }
+
 // Categories Strcuture
 type CategoriesResponse struct {
 	Title       string `json:"title"`
