@@ -32,7 +32,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-$GOOS-$GOARCH -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}
@@ -41,11 +41,11 @@ jobs:
   darwin-amd64:
     name: darwin-amd64
     runs-on: ubuntu-latest
-    steps:
-      -
-        env:
+    env:
           GOARCH: amd64
           GOOS: darwin
+    steps:
+      -
         id: go
         name: "Set up Go 1.14"
         uses: actions/setup-go@v1
@@ -64,20 +64,20 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-$GOOS-$GOARCH -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-$GOOS-$GOARCH
-          path: disaster-$GOOS-$GOARCH
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
 
   linux-386:
     name: linux-386
     runs-on: ubuntu-latest
+    env:
+      GOARCH: "386"
+      GOOS: linux    
     steps:
       -
-        env:
-          GOARCH: "386"
-          GOOS: linux
         id: go
         name: "Set up Go 1.14"
         uses: actions/setup-go@v1
@@ -96,20 +96,20 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-$GOOS-$GOARCH -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-$GOOS-$GOARCH
-          path: disaster-$GOOS-$GOARCH
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
 
   linux-amd64:
     name: linux-amd64
     runs-on: ubuntu-latest
+    env:
+      GOARCH: amd64
+      GOOS: linux
     steps:
       -
-        env:
-          GOARCH: amd64
-          GOOS: linux
         id: go
         name: "Set up Go 1.14"
         uses: actions/setup-go@v1
@@ -128,20 +128,20 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-$GOOS-$GOARCH -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-$GOOS-$GOARCH
-          path: disaster-$GOOS-$GOARCH
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
 
   windows-386:
     name: windows-386
     runs-on: ubuntu-latest
+    env:
+      GOARCH: "386"
+      GOOS: windows
     steps:
       -
-        env:
-          GOARCH: "386"
-          GOOS: windows
         id: go
         name: "Set up Go 1.14"
         uses: actions/setup-go@v1
@@ -160,20 +160,20 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-$GOOS-$GOARCH -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-$GOOS-$GOARCH
-          path: disaster-$GOOS-$GOARCH
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
 
   windows-amd64:
     name: windows-amd64
     runs-on: ubuntu-latest
+    env:
+      GOARCH: amd64
+      GOOS: windows
     steps:
       -
-        env:
-          GOARCH: amd64
-          GOOS: windows
         id: go
         name: "Set up Go 1.14"
         uses: actions/setup-go@v1
@@ -192,11 +192,11 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-$GOOS-$GOARCH -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-$GOOS-$GOARCH
-          path: disaster-$GOOS-$GOARCH
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
 
   release:
     name: "Create a release"
