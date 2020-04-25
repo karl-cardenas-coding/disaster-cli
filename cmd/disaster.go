@@ -10,11 +10,12 @@ import (
 )
 
 var (
-ApikeyFlag string
-OutputFlag string
-DisplayMapFlag bool
-GenerateDocFlag bool
-VersionString string = "No version provided"
+	ApikeyFlag      string
+	OutputFlag      string
+	DisplayMapFlag  bool
+	GenerateDocFlag bool
+	VersionString   string = "No version provided"
+
 // FilterFlag []string
 )
 
