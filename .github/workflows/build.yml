@@ -32,12 +32,11 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-$GOOS-$GOARCH -v && ls -la"
-
+        run: "go build -o disaster-$GOOS-$GOARCH -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-$GOOS-$GOARCH
-          path: disaster-$GOOS-$GOARCH
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
 
   darwin-amd64:
     name: darwin-amd64
