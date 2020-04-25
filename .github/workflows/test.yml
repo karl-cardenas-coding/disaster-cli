@@ -34,7 +34,7 @@ jobs:
         fi
 
     - name: test
-    - env:
+      env:
         GITHUB_TOKEN: ${{ github.token }}
       run: |
         cat release.config.js
