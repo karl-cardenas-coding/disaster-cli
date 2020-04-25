@@ -9,11 +9,11 @@ jobs:
   darwin-386:
     name: darwin-386
     runs-on: ubuntu-latest
+    env:
+      GOARCH: "386"
+      GOOS: "darwin"
     steps:
       -
-        env:
-          GOARCH: "386"
-          GOOS: darwin
         id: go
         name: "Set up Go 1.14"
         uses: actions/setup-go@v1
