@@ -1,16 +1,16 @@
-![Go](https://github.com/karl-cardenas-coding/disaster-cli/workflows/Go/badge.svg?branch=master)
-![Go version](https://img.shields.io/github/go-mod/go-version/karl-cardenas-coding/disaster-cli)
+[![Actions Status](https://github.com/karl-cardenas-coding/disaster-cli/workflows/Go/badge.svg?branch=master)](https://github.com/karl-cardenas-coding/disaster-cli/actions?branch=master)
+[![Go version](https://img.shields.io/github/go-mod/go-version/karl-cardenas-coding/disaster-cli)](https://golang.org/dl/)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 <p align="center">
   <img src="/static/img/disaster-gopher.png" alt="drawing" width="400"/>
 </p>
 
-# Natural Disaster CLI
 A Golang based CLI too for determining natural catastrophe near you, or a location specified. [Earth Observatory Natural Event Tracker (EONET)](https://eonet.sci.gsfc.nasa.gov/what-is-eonet) is the source for all Data.
 
 
 ## Installation
-Disaster-cli is distributed as a single binary. Install Disaster-cli by unzipping it and moving it to a directory included in your system's [PATH](https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them).
+Disaster-CLI is distributed as a single binary. [Download](https://github.com/karl-cardenas-coding/disaster-cli/releases) the binary and install Disaster-CLI by unzipping it and moving it to a directory included in your system's [PATH](https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them).
 
 
 ## Usage
