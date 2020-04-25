@@ -2,7 +2,7 @@ name: Release to Production
 
 on:
   push:
-    branches-ignore: [ master ]
+    branches: [ master ]
 
 jobs:
 
