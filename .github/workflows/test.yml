@@ -38,10 +38,11 @@ jobs:
         go run main.go events -d
         go run main.go events -o json
         echo "--------------------------------------------------"
-        go build -o=disaster -v
+        go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{GITHUB_REF}}'" -o=disaster -v
         ./disaster events -d
         ./disaster events -o table
         ./disaster events -o json
+        ./disaster version
     - uses: actions/upload-artifact@v1
       with:
         name: test-results
