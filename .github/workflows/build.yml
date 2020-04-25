@@ -84,7 +84,7 @@ jobs:
 
       -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip.zip disaster
+        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
