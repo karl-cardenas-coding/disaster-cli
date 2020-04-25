@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: release
-        run: npx semantic-release
+      - run: npx semantic-release
       -
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN}}"
