@@ -5,22 +5,16 @@ on:
     branches-ignore: [ master ]
 
 jobs:
-  release-tag:
-    name: compute tag
-    outputs:
-      output1: ${{ steps.compute_tag.outputs.next_tag  }}
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
+
     - id: compute_tag
       uses: craig-day/compute-tag@v10
       with:
         github_token: ${{ github.token }}
         version_scheme: semantic
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
 
     - name: Set up Go 1.14
       uses: actions/setup-go@v1
@@ -41,7 +35,7 @@ jobs:
 
     - name: test
       run: |
-        echo ${{ release-tag.compute_tag }}
+        echo ${{ steps.compute_tag.outputs.next_tag }}
         go test -coverprofile=go.txt -v ./...
         go run main.go
         go run main.go version
