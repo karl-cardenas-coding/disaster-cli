@@ -1,0 +1,11 @@
+mode: set
+github.com/karl-cardenas-coding/disaster-cli/library/query.go:10.49,14.16 3 1
+github.com/karl-cardenas-coding/disaster-cli/library/query.go:17.2,21.68 3 1
+github.com/karl-cardenas-coding/disaster-cli/library/query.go:25.2,25.16 1 1
+github.com/karl-cardenas-coding/disaster-cli/library/query.go:14.16,16.3 1 0
+github.com/karl-cardenas-coding/disaster-cli/library/query.go:21.68,23.3 1 0
+github.com/karl-cardenas-coding/disaster-cli/library/query.go:29.59,33.16 3 1
+github.com/karl-cardenas-coding/disaster-cli/library/query.go:36.2,40.68 3 1
+github.com/karl-cardenas-coding/disaster-cli/library/query.go:44.2,44.16 1 1
+github.com/karl-cardenas-coding/disaster-cli/library/query.go:33.16,35.3 1 0
+github.com/karl-cardenas-coding/disaster-cli/library/query.go:40.68,42.3 1 0
