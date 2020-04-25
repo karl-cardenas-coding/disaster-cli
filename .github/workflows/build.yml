@@ -211,8 +211,24 @@ jobs:
           name: disaster-darwin-386
 
       - uses: actions/download-artifact@v1
-            with:
-              name: disaster-darwin-amd64       
+        with:
+            name: disaster-darwin-amd64
+
+      - uses: actions/download-artifact@v1
+        with:
+            name: disaster-linux-386
+
+      - uses: actions/download-artifact@v1
+        with:
+            name: disaster-linux-amd64
+
+      - uses: actions/download-artifact@v1
+        with:
+            name: disaster-windows-386
+
+      - uses: actions/download-artifact@v1
+        with:
+            name: disaster-windows-amd64            
 
       - name: "release"
         run: npx semantic-release
