@@ -2,7 +2,7 @@ name: Release to Production
 
 on:
   push:
-    branches: [ master ]
+    branches-ignore: [ master ]
 
 jobs:
 
@@ -229,6 +229,8 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
             name: disaster-windows-amd64.zip            
+      - name: "testing download"
+        run: ls -laxo
 
       - name: "release"
         run: npx semantic-release
