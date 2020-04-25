@@ -4,7 +4,7 @@ module.exports = {
   plugins: ["@semantic-release/commit-analyzer",
    "@semantic-release/release-notes-generator",
    ["@semantic-release/exec", {
-    "analyzeCommitsCmd": "echo 'NEW_VERSION=false' > VERSION.env",
+    "analyzeCommitsCmd": "echo 'export VERSION=${nextRelease.version}'",
     "verifyReleaseCmd": "echo 'export VERSION=${nextRelease.version}\nNEW_VERSION=true' > VERSION.env"
   }],
    ["@semantic-release/github", {

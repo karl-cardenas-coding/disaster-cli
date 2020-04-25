@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    # - id: compute_tag
-    #   uses: craig-day/compute-tag@v10
-    #   with:
-    #     github_token: ${{ github.token }}
-    #     version_scheme: semantic
-
     - name: Set up Go 1.14
       uses: actions/setup-go@v1
       with:
@@ -39,8 +33,6 @@ jobs:
       run: |
         npm install @semantic-release/exec -D
         npx semantic-release --dry-run
-        cat VERSION.env
-        source VERSION.env
         go test -coverprofile=go.txt -v ./...
         go run main.go
         go run main.go version
