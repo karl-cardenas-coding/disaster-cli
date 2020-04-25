@@ -9,7 +9,7 @@ jobs:
     name: "Create a release"
     runs-on: ubuntu-latest
     steps:
-      - name: release
+      - name: "release"
       - run: npx semantic-release
       -
         env:
