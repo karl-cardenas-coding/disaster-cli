@@ -35,7 +35,7 @@ jobs:
         run: "go build -o disaster-$GOOS-$GOARCH -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: test-results
+          name: disaster-$GOOS-$GOARCH
           path: disaster-$GOOS-$GOARCH
 
   darwin-amd64:
@@ -67,7 +67,7 @@ jobs:
         run: "go build -o disaster-$GOOS-$GOARCH -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: test-results
+          name: disaster-$GOOS-$GOARCH
           path: disaster-$GOOS-$GOARCH
 
   linux-386:
@@ -99,7 +99,7 @@ jobs:
         run: "go build -o disaster-$GOOS-$GOARCH -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: test-results
+          name: disaster-$GOOS-$GOARCH
           path: disaster-$GOOS-$GOARCH
 
   linux-amd64:
@@ -131,7 +131,7 @@ jobs:
         run: "go build -o disaster-$GOOS-$GOARCH -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: test-results
+          name: disaster-$GOOS-$GOARCH
           path: disaster-$GOOS-$GOARCH
 
   windows-386:
@@ -163,7 +163,7 @@ jobs:
         run: "go build -o disaster-$GOOS-$GOARCH -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: test-results
+          name: disaster-$GOOS-$GOARCH
           path: disaster-$GOOS-$GOARCH
 
   windows-amd64:
@@ -195,7 +195,7 @@ jobs:
         run: "go build -o disaster-$GOOS-$GOARCH -v"
       - uses: actions/upload-artifact@v1
         with:
-          name: test-results
+          name: disaster-$GOOS-$GOARCH
           path: disaster-$GOOS-$GOARCH
 
   release:
