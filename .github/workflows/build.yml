@@ -2,7 +2,7 @@ name: Release to Production
 
 on:
   push:
-    branches-ignore: [ master ]
+    branches: [ master ]
 
 jobs:
 
@@ -96,7 +96,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -128,7 +128,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -160,7 +160,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -192,7 +192,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -243,7 +243,7 @@ jobs:
       - name: "testing download"
         run: ls -laxo
 
-      # - name: "release"
-      #   run: npx semantic-release
-      #   env:
-      #     GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN}}"
+      - name: "release"
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN}}"
