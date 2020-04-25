@@ -41,7 +41,7 @@ jobs:
 
     - name: test
       run: |
-        echo ${{ release-tag.outputs}}
+        echo ${{ release-tag.compute_tag }}
         go test -coverprofile=go.txt -v ./...
         go run main.go
         go run main.go version
