@@ -2,7 +2,7 @@ name: Release to Production
 
 on:
   push:
-    branches: [ master ]
+    branches-ignore: [ master ]
 
 env:
   GITHUB_TOKEN: ${{ github.token }}
@@ -12,6 +12,8 @@ jobs:
   darwin-386:
     name: darwin-386
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.go.outputs.version }}
     env:
       GOARCH: "386"
       GOOS: "darwin"
@@ -37,9 +39,10 @@ jobs:
             npx semantic-release --dry-run
             cat VERSION.env
             source VERSION.env
+            echo "::set-output name=version::$VERSION"
       -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        run: echo echo ${{needs.darwin-386.outputs.VERSION}} && go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
