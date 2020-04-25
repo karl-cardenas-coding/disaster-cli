@@ -9,10 +9,11 @@ jobs:
     name: "Create a release"
     runs-on: ubuntu-latest
     steps:
+      - name: release
+        run: npx semantic-release
       -
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN}}"
-        run: npx semantic-release
 
   darwin-386:
     name: darwin-386
