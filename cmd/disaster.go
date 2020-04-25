@@ -42,12 +42,12 @@ Flags:
  -o, --output string    Output format options: table | text | json (default "text")
 
 Use "disaster [command] --help" for more information about a command.`)
-	if generateDocFlag {
-		err := doc.GenMarkdownTree(cmd, "./documentation/")
-		if err != nil {
-			log.Fatal(err)
+		if generateDocFlag {
+			err := doc.GenMarkdownTree(cmd, "./documentation/")
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
-	}
 	},
 }
 
