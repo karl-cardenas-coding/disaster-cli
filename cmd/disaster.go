@@ -9,12 +9,14 @@ import (
 	"github.com/spf13/cobra/doc"
 )
 
-var ApikeyFlag string
-var OutputFlag string
-var DisplayMapFlag bool
-var GenerateDocFlag bool
-
-// var FilterFlag []string
+var (
+ApikeyFlag string
+OutputFlag string
+DisplayMapFlag bool
+GenerateDocFlag bool
+VersionString string = "No version provided"
+// FilterFlag []string
+)
 
 var rootCmd = &cobra.Command{
 	Use:   "disaster",

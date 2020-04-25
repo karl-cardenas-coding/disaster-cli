@@ -3,9 +3,12 @@ name: Test
 on:
   push:
     branches-ignore: [ master ]
+  pull_request:
+    branches: [ master ]
+env:
+  GITHUB_TOKEN: ${{ github.token }}
 
 jobs:
-
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -30,6 +33,13 @@ jobs:
 
     - name: test
       run: |
+        FILE=./VERSION.env
+        npm install @semantic-release/exec -D
+        npx semantic-release --dry-run
+        if [ -f "$FILE" ]; then
+            cat VERSION.env
+            source VERSION.env
+        fi
         go test -coverprofile=go.txt -v ./...
         go run main.go
         go run main.go version
@@ -38,10 +48,11 @@ jobs:
         go run main.go events -d
         go run main.go events -o json
         echo "--------------------------------------------------"
-        go build -o=disaster -v
+        go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v
         ./disaster events -d
         ./disaster events -o table
         ./disaster events -o json
+        ./disaster version
     - uses: actions/upload-artifact@v1
       with:
         name: test-results
