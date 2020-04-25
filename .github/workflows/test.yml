@@ -37,6 +37,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       run: |
+        npm install @semantic-release/exec -D
         npx semantic-release --dry-run
         # go test -coverprofile=go.txt -v ./...
         # go run main.go
