@@ -43,6 +43,7 @@ jobs:
         ./disaster-cli events -o table
         ./disaster-cli events -o json
         - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v1
       with:
         name: test-results
         path: go.txt
