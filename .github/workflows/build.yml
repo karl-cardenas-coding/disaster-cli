@@ -9,10 +9,13 @@ jobs:
     name: "Create a release"
     runs-on: ubuntu-latest
     steps:
-      -
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: "release"
+        run: npx semantic-release
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN}}"
-        run: npx semantic-release
 
   darwin-386:
     name: darwin-386
@@ -122,11 +125,7 @@ jobs:
       -
         name: create
         run: "go build -o disaster-$GOOS-$GOARCH -v"
-  release:
-    env:
-      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN}}"
-    name: "Create a release"
-    run: "npx semantic-release"
+
   windows-386:
     name: windows-386
     runs-on: ubuntu-latest
