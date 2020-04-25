@@ -262,7 +262,7 @@ jobs:
 
       - uses: actions/download-artifact@v1
         with:
-          name: disaster-v${{needs.darwin-386.outputs.version}}-darwin-386.zip
+          name: disaster-v${{needs.darwin-386.outputs.VERSION}}-darwin-386.zip
           path: ./
 
 
