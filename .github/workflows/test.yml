@@ -40,7 +40,7 @@ jobs:
         npm install @semantic-release/exec -D
         npx semantic-release --dry-run
         cat VERSION.env
-        source VESION.env
+        source VERSION.env
         go test -coverprofile=go.txt -v ./...
         go run main.go
         go run main.go version
