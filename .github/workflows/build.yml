@@ -208,7 +208,11 @@ jobs:
 
       - uses: actions/download-artifact@v1
         with:
-          name: disaster-**      
+          name: disaster-darwin-386
+
+      - uses: actions/download-artifact@v1
+            with:
+              name: disaster-darwin-amd64       
 
       - name: "release"
         run: npx semantic-release
