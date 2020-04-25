@@ -3,7 +3,9 @@ name: Test
 on:
   push:
     branches-ignore: [ master ]
-
+env:
+  GITHUB_TOKEN: ${{ github.token }}
+  
 jobs:
   test:
     name: Test
@@ -28,8 +30,8 @@ jobs:
         fi
 
     - name: test
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+      # env:
+      #   GITHUB_TOKEN: ${{ github.token }}
       run: |
         npm install @semantic-release/exec -D
         npx semantic-release --dry-run
