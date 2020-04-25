@@ -32,7 +32,8 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-$GOOS-$GOARCH -v"
+        run: "go build -o disaster-$GOOS-$GOARCH -v && ls -la"
+
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-$GOOS-$GOARCH
