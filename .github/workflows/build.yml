@@ -2,20 +2,9 @@ name: Release to Production
 
 on:
   push:
-    branches: [ master ]
+    branches-ignore: [ master ]
 
 jobs:
-  release:
-    name: "Create a release"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
-
-      - name: "release"
-        run: npx semantic-release
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN}}"
 
   darwin-386:
     name: darwin-386
@@ -44,6 +33,11 @@ jobs:
       -
         name: create
         run: "go build -o disaster-$GOOS-$GOARCH -v"
+      - uses: actions/upload-artifact@v1
+        with:
+          name: test-results
+          path: disaster-$GOOS-$GOARCH
+
   darwin-amd64:
     name: darwin-amd64
     runs-on: ubuntu-latest
@@ -71,6 +65,11 @@ jobs:
       -
         name: create
         run: "go build -o disaster-$GOOS-$GOARCH -v"
+      - uses: actions/upload-artifact@v1
+        with:
+          name: test-results
+          path: disaster-$GOOS-$GOARCH
+
   linux-386:
     name: linux-386
     runs-on: ubuntu-latest
@@ -98,6 +97,11 @@ jobs:
       -
         name: create
         run: "go build -o disaster-$GOOS-$GOARCH -v"
+      - uses: actions/upload-artifact@v1
+        with:
+          name: test-results
+          path: disaster-$GOOS-$GOARCH
+
   linux-amd64:
     name: linux-amd64
     runs-on: ubuntu-latest
@@ -125,6 +129,10 @@ jobs:
       -
         name: create
         run: "go build -o disaster-$GOOS-$GOARCH -v"
+      - uses: actions/upload-artifact@v1
+        with:
+          name: test-results
+          path: disaster-$GOOS-$GOARCH
 
   windows-386:
     name: windows-386
@@ -153,6 +161,11 @@ jobs:
       -
         name: create
         run: "go build -o disaster-$GOOS-$GOARCH -v"
+      - uses: actions/upload-artifact@v1
+        with:
+          name: test-results
+          path: disaster-$GOOS-$GOARCH
+
   windows-amd64:
     name: windows-amd64
     runs-on: ubuntu-latest
@@ -180,3 +193,24 @@ jobs:
       -
         name: create
         run: "go build -o disaster-$GOOS-$GOARCH -v"
+      - uses: actions/upload-artifact@v1
+        with:
+          name: test-results
+          path: disaster-$GOOS-$GOARCH
+
+  release:
+    name: "Create a release"
+    needs: ["darwin-386", "darwin-amd64", "linux-386", "linux-amd64", "windows-386", "windows-amd64"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v1
+        with:
+          name: disaster-**      
+
+      - name: "release"
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN}}"
