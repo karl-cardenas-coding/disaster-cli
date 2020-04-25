@@ -39,7 +39,7 @@ jobs:
             npx semantic-release --dry-run
             cat VERSION.env
             source VERSION.env
-            echo "::set-output name=version::'${nextRelease.version}'"
+            echo "::set-output name=version::$VERSION"
       -
         name: create
         run: echo echo ${{needs.darwin-386.outputs.VERSION}} && go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
