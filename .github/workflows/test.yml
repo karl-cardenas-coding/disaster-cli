@@ -39,7 +39,7 @@ jobs:
 
     - name: test
       run: |
-        echo ${{ steps.compute_tag.outputs.next_tag }}
+        echo ${{ needs.release-tag.steps.compute_tag.outputs.next_tag }}
         # go test -coverprofile=go.txt -v ./...
         # go run main.go
         # go run main.go version
