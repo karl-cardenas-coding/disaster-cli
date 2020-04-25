@@ -1,4 +1,4 @@
-name: Go
+name: Test
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
       run: npx semantic-release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-        
+
   linux-386:
     name: linux-386
     runs-on: ubuntu-latest
