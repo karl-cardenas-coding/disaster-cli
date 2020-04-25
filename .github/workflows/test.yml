@@ -6,7 +6,7 @@ on:
 
 jobs:
   release-tag:
-    name: compute_tag
+    name: compute tag
     outputs:
       output1: ${{ steps.compute_tag.outputs.next_tag  }}
     runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
 
     - name: test
       run: |
-        echo ${{needs.release-tag.outputs.output1}}
+        echo ${{ release-tag.outputs}}
         go test -coverprofile=go.txt -v ./...
         go run main.go
         go run main.go version
