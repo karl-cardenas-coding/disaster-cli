@@ -42,7 +42,7 @@ jobs:
             echo "::set-output name=version::$VERSION"
       -
         name: create
-        run: echo echo ${{needs.darwin-386.outputs.VERSION}} && go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        run: echo echo ${{steps.go.outputs.VERSION}} && go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
