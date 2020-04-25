@@ -29,6 +29,7 @@ jobs:
         uses: actions/checkout@v2
       -
         name: "Get dependencies"
+        id: dependencies
         run: |
             go get -v -t -d ./...
             if [ -f Gopkg.toml ]; then
@@ -42,7 +43,7 @@ jobs:
             echo "::set-output name=version::karlkarl"
       -
         name: create
-        run: echo ${{steps.go.outputs.VERSION}} && go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}-$VERSION.zip disaster
+        run: echo ${{steps.dependencies.outputs.VERSION}} && go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}-$VERSION.zip disaster
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
