@@ -32,7 +32,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}
@@ -64,7 +64,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}
@@ -96,7 +96,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}
@@ -128,7 +128,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}
@@ -160,7 +160,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}
@@ -192,7 +192,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}
@@ -208,27 +208,27 @@ jobs:
 
       - uses: actions/download-artifact@v1
         with:
-          name: disaster-darwin-386
+          name: disaster-darwin-386.zip
 
       - uses: actions/download-artifact@v1
         with:
-            name: disaster-darwin-amd64
+            name: disaster-darwin-amd64.zip
 
       - uses: actions/download-artifact@v1
         with:
-            name: disaster-linux-386
+            name: disaster-linux-386.zip
 
       - uses: actions/download-artifact@v1
         with:
-            name: disaster-linux-amd64
+            name: disaster-linux-amd64.zip
 
       - uses: actions/download-artifact@v1
         with:
-            name: disaster-windows-386
+            name: disaster-windows-386.zip
 
       - uses: actions/download-artifact@v1
         with:
-            name: disaster-windows-amd64            
+            name: disaster-windows-amd64.zip            
 
       - name: "release"
         run: npx semantic-release
