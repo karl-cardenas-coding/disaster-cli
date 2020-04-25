@@ -1,4 +1,9 @@
----
+name: Release to Production
+
+on:
+  push:
+    branches: [ master ]
+
 jobs:
   darwin-386:
     name: darwin-386
