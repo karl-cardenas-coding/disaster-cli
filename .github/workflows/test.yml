@@ -1,4 +1,4 @@
-name: Release to Production
+name: Test
 
 on:
   push:
