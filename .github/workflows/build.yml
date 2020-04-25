@@ -35,8 +35,8 @@ jobs:
         run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   darwin-amd64:
     name: darwin-amd64
@@ -67,8 +67,8 @@ jobs:
         run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   linux-386:
     name: linux-386
@@ -99,8 +99,8 @@ jobs:
         run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   linux-amd64:
     name: linux-amd64
@@ -131,8 +131,8 @@ jobs:
         run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   windows-386:
     name: windows-386
@@ -163,8 +163,8 @@ jobs:
         run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   windows-amd64:
     name: windows-amd64
@@ -195,8 +195,8 @@ jobs:
         run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}
+          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   release:
     name: "Create a release"
