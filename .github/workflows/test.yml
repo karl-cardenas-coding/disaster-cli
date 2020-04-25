@@ -33,10 +33,13 @@ jobs:
 
     - name: test
       run: |
+        FILE=./VERSION.env
         npm install @semantic-release/exec -D
         npx semantic-release --dry-run
-        cat VERSION.env
-        source VERSION.env
+        if [ -f "$FILE" ]; then
+            cat VERSION.env
+            source VERSION.env
+        fi
         go test -coverprofile=go.txt -v ./...
         go run main.go
         go run main.go version
