@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - id: compute_tag
-      uses: craig-day/compute-tag@v10
-      with:
-        github_token: ${{ github.token }}
-        version_scheme: semantic
+    # - id: compute_tag
+    #   uses: craig-day/compute-tag@v10
+    #   with:
+    #     github_token: ${{ github.token }}
+    #     version_scheme: semantic
 
     - name: Set up Go 1.14
       uses: actions/setup-go@v1
@@ -39,19 +39,21 @@ jobs:
       run: |
         npm install @semantic-release/exec -D
         npx semantic-release --dry-run
-        # go test -coverprofile=go.txt -v ./...
-        # go run main.go
-        # go run main.go version
-        # go run main.go events
-        # go run main.go events -o table
-        # go run main.go events -d
-        # go run main.go events -o json
-        # echo "--------------------------------------------------"
-        # go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{ steps.compute_tag.outputs.next_tag }}'" -o=disaster -v
-        # ./disaster events -d
-        # ./disaster events -o table
-        # ./disaster events -o json
-        # ./disaster version
+        cat VERSION.env
+        source VESION.env
+        go test -coverprofile=go.txt -v ./...
+        go run main.go
+        go run main.go version
+        go run main.go events
+        go run main.go events -o table
+        go run main.go events -d
+        go run main.go events -o json
+        echo "--------------------------------------------------"
+        go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v
+        ./disaster events -d
+        ./disaster events -o table
+        ./disaster events -o json
+        ./disaster version
     - uses: actions/upload-artifact@v1
       with:
         name: test-results
