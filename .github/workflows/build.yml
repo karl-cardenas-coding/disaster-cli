@@ -9,6 +9,9 @@ jobs:
     name: "Create a release"
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+        
       - name: "release"
         run: npx semantic-release
         env:
