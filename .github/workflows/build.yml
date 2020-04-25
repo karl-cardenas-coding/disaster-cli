@@ -32,7 +32,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -64,7 +64,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOARCH: "386"
-      GOOS: linux    
+      GOOS: linux
     steps:
       -
         id: go
@@ -128,7 +128,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -160,7 +160,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -192,7 +192,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -209,26 +209,39 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: disaster-darwin-386.zip
+          path: ./
+
 
       - uses: actions/download-artifact@v1
         with:
             name: disaster-darwin-amd64.zip
+            path: ./
 
       - uses: actions/download-artifact@v1
         with:
             name: disaster-linux-386.zip
+            path: ./
+
 
       - uses: actions/download-artifact@v1
         with:
             name: disaster-linux-amd64.zip
+            path: ./
+
 
       - uses: actions/download-artifact@v1
         with:
             name: disaster-windows-386.zip
+            path: ./
+
 
       - uses: actions/download-artifact@v1
         with:
-            name: disaster-windows-amd64.zip            
+            name: disaster-windows-amd64.zip
+            path: ./
+
+      - name: "testing download"
+        run: ls -laxo
 
       - name: "release"
         run: npx semantic-release
