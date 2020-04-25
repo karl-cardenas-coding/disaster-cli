@@ -5,6 +5,18 @@ on:
     branches: [ master ]
 
 jobs:
+  release:
+    name: "Create a release"
+    runs-on: ubuntu-latest
+    steps:
+      -
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN}}"
+        run: "npx semantic-release"
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
   darwin-386:
     name: darwin-386
     runs-on: ubuntu-latest
@@ -172,8 +184,3 @@ jobs:
       -
         name: create
         run: "go build -o disaster-$GOOS-$GOARCH -v"
-name: "Release to Production"
-true:
-  push:
-    branches:
-      - master
