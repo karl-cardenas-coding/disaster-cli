@@ -32,7 +32,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod -x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip "
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip "
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -64,7 +64,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod -x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip "
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip "
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -96,7 +96,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod -x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip "
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -128,7 +128,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod -x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip "
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip "
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -160,7 +160,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod -x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip "
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip "
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -192,7 +192,7 @@ jobs:
             fi
       -
         name: create
-        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod -x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip  && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
+        run: "go build -o disaster-${{env.GOOS}}-${{env.GOARCH}} -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}} && chmod +x disaster-${{env.GOOS}}-${{env.GOARCH}}.zip  && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster-${{env.GOOS}}-${{env.GOARCH}}"
       - uses: actions/upload-artifact@v1
         with:
           name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
