@@ -35,20 +35,20 @@ jobs:
 
     - name: test
       run: |
-        echo ${{ steps.compute_tag.outputs.next_tag }}
-        go test -coverprofile=go.txt -v ./...
-        go run main.go
-        go run main.go version
-        go run main.go events
-        go run main.go events -o table
-        go run main.go events -d
-        go run main.go events -o json
-        echo "--------------------------------------------------"
-        go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{ steps.compute_tag.outputs.next_tag }}'" -o=disaster -v
-        ./disaster events -d
-        ./disaster events -o table
-        ./disaster events -o json
-        ./disaster version
+        semantic-release --dry-run --branches $GITHUB_REF
+        # go test -coverprofile=go.txt -v ./...
+        # go run main.go
+        # go run main.go version
+        # go run main.go events
+        # go run main.go events -o table
+        # go run main.go events -d
+        # go run main.go events -o json
+        # echo "--------------------------------------------------"
+        # go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{ steps.compute_tag.outputs.next_tag }}'" -o=disaster -v
+        # ./disaster events -d
+        # ./disaster events -o table
+        # ./disaster events -o json
+        # ./disaster version
     - uses: actions/upload-artifact@v1
       with:
         name: test-results
