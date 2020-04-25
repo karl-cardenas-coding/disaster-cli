@@ -13,9 +13,6 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN}}"
         run: "npx semantic-release"
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
 
   darwin-386:
     name: darwin-386
