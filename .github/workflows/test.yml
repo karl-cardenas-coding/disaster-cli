@@ -36,7 +36,7 @@ jobs:
     - name: test
       run: |
         cat release.config.js
-        npx semantic-release --dry-run --branches $GITHUB_REF
+        npx semantic-release --dry-run
         # go test -coverprofile=go.txt -v ./...
         # go run main.go
         # go run main.go version
