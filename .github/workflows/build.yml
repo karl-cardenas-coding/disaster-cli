@@ -10,7 +10,7 @@ env:
 jobs:
 
   darwin-386:
-    name: darwin-386
+    id: darwin-386
     runs-on: ubuntu-latest
     outputs:
       VERSION: ${{ steps.go.outputs.version }}
