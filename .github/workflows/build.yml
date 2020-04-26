@@ -265,16 +265,11 @@ jobs:
         run: |
              echo ${{ needs.darwin-386.outputs.VERSION }}
              echo ${{ needs.darwin-386.outputs }}
-             echo ${{ needs.darwin-386.env }}
+             echo ${{ toJson(needs.darwin-386.env) }}
              echo ${{ needs.darwin-386 }}
+             echo ${{ toJson(needs.darwin-386.steps.dependencies.outputs.VERSION) }}
              echo ${{ needs.darwin-386.steps.dependencies.outputs.VERSION }}
-             echo ${{ needs.darwin-386.steps.dependencies.outputs.VERSION }}
-             echo ${{ needs.darwin-386.darwin-386.outputs.VERSION }}
-             echo ${{ needs.darwin-386.darwin-386.outputs }}
-             echo ${{ needs.darwin-386.darwin-386.env }}
-             echo ${{ needs.darwin-386.darwin-386 }}
-             echo ${{ needs.darwin-386.darwin-386.steps.dependencies.outputs.VERSION }}
-             echo ${{ needs.darwin-386.darwin-386.steps.dependencies.outputs.VERSION }}
+        
 
 
 
