@@ -264,9 +264,9 @@ jobs:
       - name: testing output
         run: |
              echo ${{ needs.darwin-386.outputs.VERSION }}
-             echo ${{ needs.darwin-386.outputs }}
+             echo ${{ toJson(needs.darwin-386.outputs) }}
              echo ${{ toJson(needs.darwin-386.env) }}
-             echo ${{ needs.darwin-386 }}
+             echo ${{ toJson(needs.darwin-386) }}
              echo ${{ toJson(needs.darwin-386.steps.dependencies.outputs.VERSION) }}
              echo ${{ needs.darwin-386.steps.dependencies.outputs.VERSION }}
         
