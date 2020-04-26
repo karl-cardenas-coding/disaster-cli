@@ -264,10 +264,11 @@ jobs:
       - name: testing output
         run: |
              echo ${{ needs.darwin-386.outputs.VERSION }}
+             echo ${{ needs.darwin-386.outputs }}
              echo ${{ needs.darwin-386.env }}
              echo ${{ needs.darwin-386 }}
              echo ${{ needs.darwin-386.steps.dependencies.outputs.VERSION }}
-             echo ${{ darwin-386.steps.dependencies.outputs.VERSION }}
+             echo ${{ need.darwin-386.steps.dependencies.outputs.VERSION }}
 
 
 
