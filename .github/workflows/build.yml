@@ -10,7 +10,7 @@ env:
 jobs:
 
   darwin-386:
-    # name: darwin-386
+    name: darwin-386
     runs-on: ubuntu-latest
     outputs:
       VERSION: ${{ steps.go.outputs.version }}
@@ -262,7 +262,11 @@ jobs:
         uses: actions/checkout@v2
       
       - name: testing output
-        run: echo ${{needs.darwin-386.outputs.VERSION}}
+        run: |
+             echo ${{ needs.darwin-386.outputs.VERSION }}
+             echo ${{ needs.darwin-386.env }}
+             echo ${{ needs.darwin-386 }}
+
 
       # - uses: actions/download-artifact@v1
       #   with:
