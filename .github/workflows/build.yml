@@ -10,7 +10,7 @@ env:
 jobs:
 
   darwin-386:
-    # name: darwin-386
+    name: darwin-386
     runs-on: ubuntu-latest
     outputs:
       VERSION: ${{ steps.go.outputs.version }}
@@ -48,6 +48,10 @@ jobs:
         with:
           name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
           path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+      - uses: actions/upload-artifact@v1
+        with:
+          name: VERSION.env
+          path: VERSION.env
 
   # darwin-amd64:
   #   name: darwin-amd64
@@ -260,18 +264,16 @@ jobs:
     steps:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
-      
+    
+      - uses: actions/download-artifact@v1
+        with:
+          name: VERSION.env
+          path: ./       
+
       - name: testing output
         run: |
-             echo ${{ needs.darwin-386.outputs.VERSION }}
-             echo ${{ toJson(needs.darwin-386.outputs) }}
-             echo ${{ toJson(needs.darwin-386.env) }}
-             echo ${{ toJson(needs.darwin-386) }}
-             echo ${{ toJson(needs.darwin-386.steps.dependencies.outputs.VERSION) }}
-             echo ${{ needs.darwin-386.steps.dependencies.outputs.VERSION }}
-        
-
-
+             source VERSION.env
+             echo $VERSION
 
 
       # - uses: actions/download-artifact@v1
