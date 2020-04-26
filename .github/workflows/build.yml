@@ -12,6 +12,8 @@ jobs:
   darwin-386:
     name: darwin-386
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.go.outputs.version }}
     env:
       GOARCH: "386"
       GOOS: "darwin"
@@ -27,6 +29,7 @@ jobs:
         uses: actions/checkout@v2
       -
         name: "Get dependencies"
+        id: dependencies
         run: |
             go get -v -t -d ./...
             if [ -f Gopkg.toml ]; then
@@ -37,17 +40,24 @@ jobs:
             npx semantic-release --dry-run
             cat VERSION.env
             source VERSION.env
+            echo "::set-output name=version::$VERSION"
       -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        run:  go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+      - uses: actions/upload-artifact@v1
+        with:
+          name: VERSION.env
+          path: VERSION.env
 
   darwin-amd64:
     name: darwin-amd64
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.go.outputs.version }}
     env:
           GOARCH: amd64
           GOOS: darwin
@@ -63,6 +73,7 @@ jobs:
         uses: actions/checkout@v2
       -
         name: "Get dependencies"
+        id: dependencies
         run: |
             go get -v -t -d ./...
             if [ -f Gopkg.toml ]; then
@@ -73,17 +84,21 @@ jobs:
             npx semantic-release --dry-run
             cat VERSION.env
             source VERSION.env
+            echo "::set-output name=version::$VERSION"
+
       -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   linux-386:
     name: linux-386
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.go.outputs.version }}
     env:
       GOARCH: "386"
       GOOS: linux
@@ -99,6 +114,7 @@ jobs:
         uses: actions/checkout@v2
       -
         name: "Get dependencies"
+        id: dependencies
         run: |
             go get -v -t -d ./...
             if [ -f Gopkg.toml ]; then
@@ -109,17 +125,21 @@ jobs:
             npx semantic-release --dry-run
             cat VERSION.env
             source VERSION.env
+            echo "::set-output name=version::$VERSION"
+
       -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   linux-amd64:
     name: linux-amd64
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.go.outputs.version }}
     env:
       GOARCH: amd64
       GOOS: linux
@@ -135,6 +155,7 @@ jobs:
         uses: actions/checkout@v2
       -
         name: "Get dependencies"
+        id: dependencies
         run: |
             go get -v -t -d ./...
             if [ -f Gopkg.toml ]; then
@@ -145,17 +166,21 @@ jobs:
             npx semantic-release --dry-run
             cat VERSION.env
             source VERSION.env
+            echo "::set-output name=version::$VERSION"
+
       -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=v${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   windows-386:
     name: windows-386
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.go.outputs.version }}
     env:
       GOARCH: "386"
       GOOS: windows
@@ -171,6 +196,7 @@ jobs:
         uses: actions/checkout@v2
       -
         name: "Get dependencies"
+        id: dependencies
         run: |
             go get -v -t -d ./...
             if [ -f Gopkg.toml ]; then
@@ -181,17 +207,20 @@ jobs:
             npx semantic-release --dry-run
             cat VERSION.env
             source VERSION.env
+            echo "::set-output name=version::$VERSION"
       -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   windows-amd64:
     name: windows-amd64
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.go.outputs.version }}
     env:
       GOARCH: amd64
       GOOS: windows
@@ -207,6 +236,7 @@ jobs:
         uses: actions/checkout@v2
       -
         name: "Get dependencies"
+        id: dependencies
         run: |
             go get -v -t -d ./...
             if [ -f Gopkg.toml ]; then
@@ -217,54 +247,71 @@ jobs:
             npx semantic-release --dry-run
             cat VERSION.env
             source VERSION.env
+            echo "::set-output name=version::$VERSION"
       -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v && zip disaster-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-${{env.GOOS}}-${{env.GOARCH}}.zip
+          name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   release:
     name: "Create a release"
     needs: ["darwin-386", "darwin-amd64", "linux-386", "linux-amd64", "windows-386", "windows-amd64"]
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.get-version.outputs.version }}
     steps:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
+    
+      - uses: actions/download-artifact@v1
+        with:
+          name: VERSION.env
+          path: ./       
+
+      - name: Get Version
+        id: get-version
+        run: |
+             source VERSION.env
+             echo $VERSION
+             echo "::set-output name=version::$VERSION"
+
+
 
       - uses: actions/download-artifact@v1
         with:
-          name: disaster-darwin-386.zip
+          name: disaster-v${{ steps.get-version.outputs.version }}-darwin-386.zip
           path: ./
 
 
       - uses: actions/download-artifact@v1
         with:
-            name: disaster-darwin-amd64.zip
+            name: disaster-v${{ steps.get-version.outputs.version }}-darwin-amd64.zip
             path: ./
 
       - uses: actions/download-artifact@v1
         with:
-            name: disaster-linux-386.zip
-            path: ./
-
-
-      - uses: actions/download-artifact@v1
-        with:
-            name: disaster-linux-amd64.zip
+            name: disaster-v${{ steps.get-version.outputs.version }}-linux-386.zip
             path: ./
 
 
       - uses: actions/download-artifact@v1
         with:
-            name: disaster-windows-386.zip
+            name: disaster-v${{ steps.get-version.outputs.version }}-linux-amd64.zip
             path: ./
 
 
       - uses: actions/download-artifact@v1
         with:
-            name: disaster-windows-amd64.zip
+            name: disaster-v${{ steps.get-version.outputs.version }}-windows-386.zip
+            path: ./
+
+
+      - uses: actions/download-artifact@v1
+        with:
+            name: disaster-v${{ steps.get-version.outputs.version }}-windows-amd64.zip
             path: ./
 
       - name: "release"

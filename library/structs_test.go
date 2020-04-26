@@ -10,12 +10,16 @@ func TestEventStrcuts(t *testing.T) {
 
 	getJson(urlEvents, event)
 
-	for _, value := range event.Events {
-		got := value.Title
-		want := "Wildfire - Vichuquen, Chile"
-		if got != want {
-			t.Errorf("got %v want %v", got, want)
+	want := event.Events[0].Title
+
+	for index, value := range event.Events {
+		if index == 0 {
+			got := value.Title
+			if got != want {
+				t.Errorf("got %v want %v", got, want)
+			}
 		}
+
 	}
 
 }
@@ -27,12 +31,16 @@ func TestCategoriestrcuts(t *testing.T) {
 
 	getJson(urlCategories, CategoriesRes)
 
-	for _, value := range CategoriesRes.categories {
-		got := value.Title
-		want := "EONET Events: Drought"
-		if got != want {
-			t.Errorf("got %v want %v", got, want)
+	want := CategoriesRes.Categories[0].Title
+
+	for index, value := range CategoriesRes.Categories {
+		if index == 0 {
+			got := value.Title
+			if got != want {
+				t.Errorf("got %v want %v", got, want)
+			}
 		}
+
 	}
 
 }
