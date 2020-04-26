@@ -10,7 +10,7 @@ env:
 jobs:
 
   darwin-386:
-    id: darwin-386
+    name: darwin-386
     runs-on: ubuntu-latest
     outputs:
       VERSION: ${{ steps.go.outputs.version }}
@@ -269,6 +269,12 @@ jobs:
              echo ${{ needs.darwin-386 }}
              echo ${{ needs.darwin-386.steps.dependencies.outputs.VERSION }}
              echo ${{ needs.darwin-386.steps.dependencies.outputs.VERSION }}
+             echo ${{ needs.darwin-386.darwin-386.outputs.VERSION }}
+             echo ${{ needs.darwin-386.darwin-386.outputs }}
+             echo ${{ needs.darwin-386.darwin-386.env }}
+             echo ${{ needs.darwin-386.darwin-386 }}
+             echo ${{ needs.darwin-386.darwin-386.steps.dependencies.outputs.VERSION }}
+             echo ${{ needs.darwin-386.darwin-386.steps.dependencies.outputs.VERSION }}
 
 
 
