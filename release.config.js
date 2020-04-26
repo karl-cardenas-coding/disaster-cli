@@ -1,5 +1,5 @@
 module.exports = {
-  branches: ["master", "fix-1"],
+  branches: "master",
   repositoryUrl: "https://github.com/karl-cardenas-coding/disaster-cli.git",
   plugins: ["@semantic-release/commit-analyzer",
    "@semantic-release/release-notes-generator",
