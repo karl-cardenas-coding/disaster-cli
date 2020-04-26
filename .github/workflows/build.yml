@@ -261,6 +261,8 @@ jobs:
     # needs: ["darwin-386", "darwin-amd64", "linux-386", "linux-amd64", "windows-386", "windows-amd64"]
     needs: ["darwin-386"]
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.get-version.outputs.version }}
     steps:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
@@ -270,15 +272,18 @@ jobs:
           name: VERSION.env
           path: ./       
 
-      - name: testing output
+      - name: Get Version
+        id: get-version
         run: |
              source VERSION.env
              echo $VERSION
+             echo "::set-output name=version::$VERSION"
+
 
 
       - uses: actions/download-artifact@v1
         with:
-          name: disaster-v$VERSION-darwin-386.zip
+          name: disaster-v${{ steps.get-version.outputs.version }}-darwin-386.zip
           path: ./
 
 
