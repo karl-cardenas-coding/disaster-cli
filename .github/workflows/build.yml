@@ -2,7 +2,7 @@ name: Release to Production
 
 on:
   push:
-    branches-ignore: [ master ]
+    branches: [ master ]
 
 env:
   GITHUB_TOKEN: ${{ github.token }}
@@ -314,7 +314,7 @@ jobs:
             name: disaster-v${{ steps.get-version.outputs.version }}-windows-amd64.zip
             path: ./
 
-      # - name: "release"
-      #   run: |
-      #        npm install @semantic-release/exec -D
-      #        npx semantic-release
+      - name: "release"
+        run: |
+             npm install @semantic-release/exec -D
+             npx semantic-release
