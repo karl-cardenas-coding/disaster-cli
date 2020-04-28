@@ -33,7 +33,7 @@ jobs:
         curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.25.1
 
     - name: go-linter
-      run: $(go env GOPATH)/bin/golangci-lint run
+      run: ~/bin/golangci-lint run
 
     - name: test
       run: |
