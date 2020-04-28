@@ -25,12 +25,16 @@ var rootCmd = &cobra.Command{
 	Long:  `A Golang based CLI too for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		generateDocFlag := GenerateDocFlag
-		cmd.Help()
 		if generateDocFlag {
 			err := doc.GenMarkdownTree(cmd, "./documentation/")
 			if err != nil {
 				log.Fatal(err)
 			}
+		}
+
+		err := cmd.Help()
+		if err != nil {
+			log.Fatal(err)
 		}
 	},
 }
