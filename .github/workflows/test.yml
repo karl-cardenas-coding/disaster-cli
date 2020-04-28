@@ -30,9 +30,10 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
+        curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.25.1
 
     - name: go-linter
-      run: docker run --rm -v $(pwd):/app -w /app golangci/golangci-lint:v1.25.1 golangci-lint run -v
+      run: $(go env GOPATH)/bin/golangci-lint run
 
     - name: test
       run: |
