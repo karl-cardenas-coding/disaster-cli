@@ -1,16 +1,17 @@
 package library
 
 import (
+	"log"
 	"testing"
 )
 
 func TestEventStrcuts(t *testing.T) {
 	urlEvents := "https://eonet.sci.gsfc.nasa.gov/api/v3/events"
-	var event EventResponse
+	event := new(EventResponse)
 
 	err := getJson(urlEvents, event)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	want := event.Events[0].Title
@@ -34,7 +35,7 @@ func TestCategoriestrcuts(t *testing.T) {
 
 	err := getJson(urlCategories, CategoriesRes)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	want := CategoriesRes.Categories[0].Title
