@@ -34,7 +34,7 @@ jobs:
 
     - name: go-linter
       run: |
-          $(go env GOPATH)/bin/golangci-lint run -v
+          /home/runner/go/bin/golangci-lint run -v
 
     - name: test
       run: |
