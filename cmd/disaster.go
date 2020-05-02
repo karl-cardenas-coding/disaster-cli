@@ -15,8 +15,7 @@ var (
 	DisplayMapFlag  bool
 	GenerateDocFlag bool
 	VersionString   string = "No version provided"
-
-// FilterFlag []string
+	FiltersFlag            = make([]string, 0, 10)
 )
 
 var rootCmd = &cobra.Command{
@@ -25,12 +24,16 @@ var rootCmd = &cobra.Command{
 	Long:  `A Golang based CLI too for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		generateDocFlag := GenerateDocFlag
-		cmd.Help()
 		if generateDocFlag {
 			err := doc.GenMarkdownTree(cmd, "./documentation/")
 			if err != nil {
 				log.Fatal(err)
 			}
+		}
+
+		err := cmd.Help()
+		if err != nil {
+			log.Fatal(err)
 		}
 	},
 }
@@ -40,6 +43,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&OutputFlag, "output", "o", "text", "Output format options: table | text | json")
 	rootCmd.PersistentFlags().BoolVarP(&GenerateDocFlag, "documentation", "c", false, "Generate documentation")
 	eventsCmd.Flags().BoolVarP(&DisplayMapFlag, "display-map", "d", false, "Displays the Google Maps URL")
+	eventsCmd.Flags().StringSliceVarP(&FiltersFlag, "filter", "f", []string{}, "filter events by passing in categories (comma seperated")
 }
 
 func Execute() {

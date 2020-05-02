@@ -16,7 +16,7 @@ func TestQueryEventsAPI(t *testing.T) {
 func TestQueryCategoriesAPI(t *testing.T) {
 
 	want := "Greater than 0"
-	got := QueryCategoriesAPI("")
+	got := QueryCategoriesAPI("", "")
 
 	if len(got.Categories) <= 0 {
 		t.Errorf("Query Categories failed: %v \nwant: %v", got, want)

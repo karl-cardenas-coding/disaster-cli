@@ -7,6 +7,7 @@ on:
     branches: [ master ]
 env:
   GITHUB_TOKEN: ${{ github.token }}
+  LINT_VERSION: "1.25.1"
 
 jobs:
   test:
@@ -30,6 +31,11 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
+        curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v$LINT_VERSION
+
+    - name: go-linter
+      run: |
+          $(go env GOPATH)/bin/golangci-lint run -v
 
     - name: test
       run: |
@@ -44,15 +50,23 @@ jobs:
         go run main.go
         go run main.go version
         go run main.go events
+        go run main.go events -f volcanoes,wildfires
+        go run main.go events -f volcanoes,wildfires -o table
+        go run main.go events -f volcanoes,wildfires -o json
         go run main.go events -o table
         go run main.go events -d
         go run main.go events -o json
+    - name: build & execute
+      run: |
         echo "--------------------------------------------------"
         go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=$VERSION'" -o=disaster -v
         ./disaster events -d
         ./disaster events -o table
         ./disaster events -o json
         ./disaster version
+        ./disaster events -f volcanoes,wildfires
+        ./disaster events -f volcanoes,wildfires -o table
+        ./disaster events -f volcanoes,wildfires -o json
     - uses: actions/upload-artifact@v1
       with:
         name: test-results
