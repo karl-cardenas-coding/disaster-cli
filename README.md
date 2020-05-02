@@ -48,7 +48,7 @@ For more info visit https://api.nasa.gov/
 
 ## CI/CD 
 
-All CI/CD is through Github Actions. See the `.github/workflows/` to view the templates. 
+All CI/CD is powered by Github Actions. See the `.github/workflows/` to view the templates. 
 
 * Linting: [golangci-lint](https://github.com/golangci/golangci-lint)
 * SAST: [LGTM](https://lgtm.com/help/lgtm/about-lgtm)

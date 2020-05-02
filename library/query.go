@@ -26,8 +26,15 @@ func QueryEventAPI(apikey string) EventResponse {
 
 }
 
-func QueryCategoriesAPI(apikey string) CategoriesResponse {
-	url := fmt.Sprintf("https://eonet.sci.gsfc.nasa.gov/api/v3/categories?api_key=%s", apikey)
+func QueryCategoriesAPI(apikey string, category string) CategoriesResponse {
+	var url string
+
+	if category == "" {
+		url = fmt.Sprintf("https://eonet.sci.gsfc.nasa.gov/api/v3/categories/%s?api_key=%s", category, apikey)
+	} else {
+		url = fmt.Sprintf("https://eonet.sci.gsfc.nasa.gov/api/v3/categories?api_key=%s", apikey)
+
+	}
 
 	resp, err := http.Get(url)
 	if err != nil {

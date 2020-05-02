@@ -39,7 +39,7 @@ The returned category may be used with the --filter flag for the event cmd.`,
 		apikey := ApikeyFlag
 		outputFlag := OutputFlag
 
-		records := library.QueryCategoriesAPI(apikey)
+		records := library.QueryCategoriesAPI(apikey, "")
 
 		if outputFlag == "text" {
 
@@ -48,7 +48,8 @@ The returned category may be used with the --filter flag for the event cmd.`,
 				fmt.Println(v.ID)
 
 			}
-			fmt.Printf("\nThere are currently %v unique natural disaster categories occuring in the world.\n\n", len(records.Categories))
+			fmt.Printf("\nThere are %v unique natural disaster categories available in the EONET system.\n\n", len(records.Categories))
+			fmt.Println("Use these provided categories with the events command and the filter flag -f \nExample: disaster events -f floods,wildfires")
 		}
 
 		if outputFlag == "table" {

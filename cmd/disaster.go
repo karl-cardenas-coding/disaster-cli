@@ -15,8 +15,7 @@ var (
 	DisplayMapFlag  bool
 	GenerateDocFlag bool
 	VersionString   string = "No version provided"
-
-// FilterFlag []string
+	FiltersFlag            = make([]string, 0, 10)
 )
 
 var rootCmd = &cobra.Command{
@@ -44,6 +43,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&OutputFlag, "output", "o", "text", "Output format options: table | text | json")
 	rootCmd.PersistentFlags().BoolVarP(&GenerateDocFlag, "documentation", "c", false, "Generate documentation")
 	eventsCmd.Flags().BoolVarP(&DisplayMapFlag, "display-map", "d", false, "Displays the Google Maps URL")
+	eventsCmd.Flags().StringSliceVarP(&FiltersFlag, "filter", "f", []string{}, "filter events by passing in categories (comma seperated")
 }
 
 func Execute() {

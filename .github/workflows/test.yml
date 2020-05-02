@@ -50,6 +50,9 @@ jobs:
         go run main.go
         go run main.go version
         go run main.go events
+        go run main.go events -f volcanoes,wildfires
+        go run main.go events -f volcanoes,wildfires -o table
+        go run main.go events -f volcanoes,wildfires -o json
         go run main.go events -o table
         go run main.go events -d
         go run main.go events -o json
@@ -61,6 +64,9 @@ jobs:
         ./disaster events -o table
         ./disaster events -o json
         ./disaster version
+        ./disaster events -f volcanoes,wildfires
+        ./disaster events -f volcanoes,wildfires -o table
+        ./disaster events -f volcanoes,wildfires -o json
     - uses: actions/upload-artifact@v1
       with:
         name: test-results
