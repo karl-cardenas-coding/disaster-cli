@@ -46,15 +46,6 @@ For more info visit https://api.nasa.gov/
 
 **Note**: To generate an API key visit https://api.nasa.gov/. Use the `--a` flag to pass in your API key.
 
-## CI/CD 
-
-All CI/CD is powered by Github Actions. See the `.github/workflows/` to view the templates. 
-
-* Linting: [golangci-lint](https://github.com/golangci/golangci-lint)
-* SAST: [LGTM](https://lgtm.com/help/lgtm/about-lgtm)
-* Dependecy Scan: [dependabot](https://dependabot.com/)
-
-
 ## Helpful Links
 
 API Documentation:  https://eonet.sci.gsfc.nasa.gov/docs/v3
