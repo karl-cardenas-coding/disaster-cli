@@ -1,4 +1,4 @@
-branches: master
+branches: [master, dry-release]
 repositoryUrl: https://github.com/karl-cardenas-coding/disaster-cli.git
 plugins:
 - "@semantic-release/commit-analyzer"
