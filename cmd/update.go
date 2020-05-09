@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"archive/zip"
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -161,7 +162,7 @@ func (wc WriteCounter) PrintProgress() {
 
 	// Return again and print current status of download
 	// We use the humanize package to print the bytes in a meaningful way (e.g. 10 MB)
-	fmt.Printf("\rDownloading... %s complete", humanize.Bytes(wc.Total))
+	fmt.Printf("\rDownloading.......... %s complete", humanize.Bytes(wc.Total))
 }
 
 // DownloadFile will download a url to a local file. It's efficient because it will
@@ -171,8 +172,9 @@ func DownloadFile(filepath string, url string) error {
 
 	// Create the file, but give it a tmp file extension, this means we won't overwrite a
 	// file until it's downloaded, but we'll remove the tmp extension once downloaded.
-	fmt.Println(filepath)
-	out, err := os.Create(filepath + ".tmp")
+	// Downloaded to the deafult OS temporary directory
+	tmpDir := os.TempDir()
+	out, err := os.Create(tmpDir + "download.tmp")
 	if err != nil {
 		return err
 	}
@@ -198,31 +200,86 @@ func DownloadFile(filepath string, url string) error {
 	// Close the file without defer so it can happen before Rename()
 	out.Close()
 
-	if err = os.Rename(filepath+".tmp", filepath); err != nil {
+	if err = os.Rename(tmpDir+"download.tmp", filepath); err != nil {
 		return err
 	}
 
+	// Open zip file
 	zipFile, err := zip.OpenReader(filepath)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer zipFile.Close()
 
+	// Loop through content of zip file
 	for _, f := range zipFile.File {
-		fmt.Printf("Contents of %s:\n", f.Name)
+		// Create a new file
+		finalFile, err := os.Create(f.Name + ".exe")
+		if err != nil {
+			return err
+		}
+
+		// Open up binary inside the zip file
 		rc, err := f.Open()
 		if err != nil {
 			log.Fatal(err)
 		}
-		_, err = io.CopyN(os.Stdout, rc, 68)
+		// Copy all content from binary to a new file.
+		_, err = io.Copy(finalFile, rc)
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		rc.Close()
-		fmt.Println()
+
+		finalFile.Close()
+	}
+	// Close zipfile
+	zipFile.Close()
+
+	// Clean up and delete the zipfile
+	if err := os.Remove(filepath); err != nil {
+		fmt.Println(err)
+	}
+	return nil
+}
+
+func userInput() (bool, error) {
+	var output bool
+	for {
+		reader := bufio.NewReader(os.Stdin)
+		char, _, err := reader.ReadRune()
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		switch char {
+		case 'Y':
+			output = true
+			break
+		case 'y':
+			output = true
+			break
+		case 'N':
+			output = false
+			break
+		case 'n':
+			output = false
+			break
+		default:
+			fmt.Println("Invalid entry! Please enter Y OR N")
+		}
+
+		if output {
+			break
+		} else {
+			os.Exit(0)
+		}
+
 	}
 
-	return nil
+	return output, nil
+
 }
 
 func updateDisasterCli() {
@@ -233,26 +290,37 @@ func updateDisasterCli() {
 	}
 
 	if executeDownload {
-
-		// Get the current location of where the binary is located
-		binDir, err := os.Getwd()
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Println(os.TempDir())
-		fmt.Println("Installing new version of disaster-cli at ", binDir)
-
-		// Get the download URL for the correct release file
-		downloadUrl, downloadFileName, err := getReleaseURL()
+		fmt.Println("Would you like to proceed with the update? (Y/N)")
+		userAccepted, err := userInput()
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		// Download the proper release asset (zip)
-		if err := DownloadFile(downloadFileName, downloadUrl); err != nil {
-			fmt.Println(err)
+		if executeDownload && userAccepted {
+
+			// Get the current location of where the binary is located
+			binDir, err := os.Getwd()
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			fmt.Println("Installing new version of disaster-cli at ", binDir)
+
+			// Get the download URL for the correct release file
+			downloadUrl, downloadFileName, err := getReleaseURL()
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			// Download the proper release asset (zip)
+			if err := DownloadFile(downloadFileName, downloadUrl); err != nil {
+				fmt.Println(err)
+			}
 		}
-	} else {
+
+	}
+
+	if !executeDownload {
 		fmt.Println("No new version found")
 	}
 
