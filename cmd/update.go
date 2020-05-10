@@ -264,7 +264,7 @@ func DownloadFile(filepath string, url string) error {
 	// Loop through content of zip file
 	for _, f := range zipFile.File {
 		// Create a new file
-		finalFile, err := os.Create(f.Name + ".exe")
+		finalFile, err := os.Create(f.Name)
 		if err != nil {
 			return err
 		}
@@ -281,6 +281,10 @@ func DownloadFile(filepath string, url string) error {
 		}
 
 		rc.Close()
+
+		if runtime.GOOS == "windows" {
+			os.Rename(f.Name + ".exe")
+		}
 
 		finalFile.Close()
 	}
