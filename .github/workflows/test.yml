@@ -77,8 +77,8 @@ jobs:
         go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=1.0.0'" -o=disaster -v
         mkdir tempbin
         echo 'Y' | ./disaster update -l ./tempbin/
+        sleep 5
         ./disaster version
-        ls -l && ls -la tempbin/
     - uses: actions/upload-artifact@v1
       with:
         name: test-results
