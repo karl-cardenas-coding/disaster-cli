@@ -30,6 +30,50 @@ var updateCmd = &cobra.Command{
 	},
 }
 
+func updateDisasterCli() {
+
+	executeDownload, err := checkForNewRelease()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	if executeDownload {
+		fmt.Println("Would you like to proceed with the update? (Y/N)")
+		userAccepted, err := userInput()
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		if executeDownload && userAccepted {
+
+			// Get the current location of where the binary is located
+			binDir, err := os.Getwd()
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			fmt.Println("Installing new version of disaster-cli at ", binDir)
+
+			// Get the download URL for the correct release file
+			downloadUrl, downloadFileName, err := getReleaseURL()
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			// Download the proper release asset (zip)
+			if err := DownloadFile(downloadFileName, downloadUrl); err != nil {
+				fmt.Println(err)
+			}
+		}
+
+	}
+
+	if !executeDownload {
+		fmt.Println("No new version found")
+	}
+
+}
+
 func checkForNewRelease() (bool, error) {
 	url := "https://api.github.com/repos/karl-cardenas-coding/disaster-cli/releases/latest"
 	version := VersionString
@@ -245,27 +289,24 @@ func DownloadFile(filepath string, url string) error {
 
 func userInput() (bool, error) {
 	var output bool
+	var err error
 	for {
 		reader := bufio.NewReader(os.Stdin)
 		char, _, err := reader.ReadRune()
 
 		if err != nil {
-			fmt.Println(err)
+			panic(err)
 		}
 
 		switch char {
 		case 'Y':
 			output = true
-			break
 		case 'y':
 			output = true
-			break
 		case 'N':
 			output = false
-			break
 		case 'n':
 			output = false
-			break
 		default:
 			fmt.Println("Invalid entry! Please enter Y OR N")
 		}
@@ -278,50 +319,6 @@ func userInput() (bool, error) {
 
 	}
 
-	return output, nil
-
-}
-
-func updateDisasterCli() {
-
-	executeDownload, err := checkForNewRelease()
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	if executeDownload {
-		fmt.Println("Would you like to proceed with the update? (Y/N)")
-		userAccepted, err := userInput()
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		if executeDownload && userAccepted {
-
-			// Get the current location of where the binary is located
-			binDir, err := os.Getwd()
-			if err != nil {
-				fmt.Println(err)
-			}
-
-			fmt.Println("Installing new version of disaster-cli at ", binDir)
-
-			// Get the download URL for the correct release file
-			downloadUrl, downloadFileName, err := getReleaseURL()
-			if err != nil {
-				fmt.Println(err)
-			}
-
-			// Download the proper release asset (zip)
-			if err := DownloadFile(downloadFileName, downloadUrl); err != nil {
-				fmt.Println(err)
-			}
-		}
-
-	}
-
-	if !executeDownload {
-		fmt.Println("No new version found")
-	}
+	return output, err
 
 }
