@@ -283,7 +283,11 @@ func DownloadFile(filepath string, url string) error {
 		rc.Close()
 
 		if runtime.GOOS == "windows" {
-			os.Rename(f.Name + ".exe")
+			finalFile.Name()
+			err := os.Rename(finalFile.Name(), finalFile.Name()+".exe")
+			if err != nil {
+				log.Fatal("Adding exe extension failed: ", err)
+			}
 		}
 
 		finalFile.Close()
