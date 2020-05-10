@@ -282,6 +282,8 @@ func DownloadFile(filepath string, url string) error {
 
 		rc.Close()
 
+		finalFile.Close()
+
 		if runtime.GOOS == "windows" {
 			finalFile.Name()
 			err := os.Rename(finalFile.Name(), finalFile.Name()+".exe")
@@ -289,8 +291,6 @@ func DownloadFile(filepath string, url string) error {
 				log.Fatal("Adding exe extension failed: ", err)
 			}
 		}
-
-		finalFile.Close()
 	}
 	// Close zipfile
 	zipFile.Close()
@@ -299,6 +299,7 @@ func DownloadFile(filepath string, url string) error {
 	if err := os.Remove(filepath); err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println("Install Complete")
 	return nil
 }
 
