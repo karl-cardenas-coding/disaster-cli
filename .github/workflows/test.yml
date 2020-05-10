@@ -74,8 +74,8 @@ jobs:
         ./disaster events -f volcanoes,wildfires -o json
     - name: build & verfy update feature
       run: |
-        go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=v1.0.0'" -o=disaster -v
-        echo 'Y' | ./disaster update
+        go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=1.0.0'" -o=disaster -v
+        echo 'Y' | ./disaster update -l .
         ./disaster version
     - uses: actions/upload-artifact@v1
       with:

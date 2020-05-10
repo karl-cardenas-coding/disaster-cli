@@ -214,10 +214,17 @@ func (wc WriteCounter) PrintProgress() {
 // into Copy() to report progress on the download.
 func DownloadFile(filepath string, url string) error {
 
+	var tmpDir string
+
 	// Create the file, but give it a tmp file extension, this means we won't overwrite a
 	// file until it's downloaded, but we'll remove the tmp extension once downloaded.
 	// Downloaded to the deafult OS temporary directory
-	tmpDir := os.TempDir()
+	if DownloadTempPath != "" {
+		tmpDir = DownloadTempPath
+		fmt.Println("Detected -l flag - using the following path for download: ", tmpDir)
+	} else {
+		tmpDir = os.TempDir()
+	}
 	out, err := os.Create(tmpDir + "download.tmp")
 	if err != nil {
 		return err

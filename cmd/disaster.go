@@ -10,12 +10,13 @@ import (
 )
 
 var (
-	ApikeyFlag      string
-	OutputFlag      string
-	DisplayMapFlag  bool
-	GenerateDocFlag bool
-	VersionString   string = "No version provided"
-	FiltersFlag            = make([]string, 0, 10)
+	ApikeyFlag       string
+	OutputFlag       string
+	DisplayMapFlag   bool
+	GenerateDocFlag  bool
+	VersionString    string = "No version provided"
+	FiltersFlag             = make([]string, 0, 10)
+	DownloadTempPath string
 )
 
 var rootCmd = &cobra.Command{
@@ -44,6 +45,7 @@ func init() {
 	rootCmd.PersistentFlags().BoolVarP(&GenerateDocFlag, "documentation", "c", false, "Generate documentation")
 	eventsCmd.Flags().BoolVarP(&DisplayMapFlag, "display-map", "d", false, "Displays the Google Maps URL")
 	eventsCmd.Flags().StringSliceVarP(&FiltersFlag, "filter", "f", []string{}, "filter events by passing in categories (comma seperated")
+	updateCmd.Flags().StringVarP(&DownloadTempPath, "temp-location", "l", "", "Specify the temporary directory to use for the update process")
 }
 
 func Execute() {
