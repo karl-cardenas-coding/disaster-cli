@@ -78,6 +78,8 @@ jobs:
         mkdir tempbin
         echo 'Y' | ./disaster update -l ./tempbin/
         sleep 5
+        chmod 775 disaster
+        ls -laxo
         ./disaster version
     - uses: actions/upload-artifact@v1
       with:
