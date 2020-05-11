@@ -1,20 +1,20 @@
-## disaster categories
+## disaster update
 
-Prints all the unique categories of all the events
+Updates the disaster-cli to the latest version available
 
 ### Synopsis
 
-Prints all the unique categories of all the events occurring right now.
-The returned category may be used with the --filter flag for the event cmd.
+Queries Github to check for a new version, if there is a new version it will install it
 
 ```
-disaster categories [flags]
+disaster update [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for categories
+  -h, --help                   help for update
+  -l, --temp-location string   Specify the temporary directory to use for the update process
 ```
 
 ### Options inherited from parent commands

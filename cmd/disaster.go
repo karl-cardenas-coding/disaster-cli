@@ -21,8 +21,8 @@ var (
 
 var rootCmd = &cobra.Command{
 	Use:   "disaster",
-	Short: "A CLI too for determining natural catastrophe near you, or a location specified",
-	Long:  `A Golang based CLI too for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.`,
+	Short: "A CLI tool for determining natural catastrophe near you, or a location specified",
+	Long:  `A Golang based CLI tool for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		generateDocFlag := GenerateDocFlag
 		if generateDocFlag {

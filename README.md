@@ -22,12 +22,14 @@ disaster [flags]
 disaster version [flags]
 disaster events [flags]
 disaster categories [flags]
+disaster update [flags]
 
 ```
 
 * [disaster](/documentation/disaster.md)	 - A CLI too for determining natural catastrophe near you, or a location specified
 * [events](/documentation/disaster_events.md)	 - Returns all events occurring in the world at this point in time.
 * [categories](/documentation/disaster_categories.md) - Prints all the unique categories of all the events.
+* [update](/documentation/disaster_update.md)	 - Updates the local version disaster-cli
 * [version](/documentation/disaster_version.md)	 - Print the version number of disaster-cli
 
 ## Contributing to Disaster-CLI

@@ -23,7 +23,7 @@ func init() {
 
 var updateCmd = &cobra.Command{
 	Use:   "update",
-	Short: "Updates the local version disaster-cli",
+	Short: "Updates the disaster-cli to the latest version available",
 	Long:  `Queries Github to check for a new version, if there is a new version it will install it`,
 	Run: func(cmd *cobra.Command, args []string) {
 		updateDisasterCli()
