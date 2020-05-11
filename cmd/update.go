@@ -47,12 +47,8 @@ func updateDisasterCli() {
 		if executeDownload && userAccepted {
 
 			// Get the current location of where the binary is located
-			binDir, err := os.Getwd()
-			if err != nil {
-				fmt.Println(err)
-			}
 
-			fmt.Println("Installing new version of disaster-cli at ", binDir)
+			fmt.Println("Installing new version of disaster-cli at ", getSystemPathForDisaster())
 
 			// Get the download URL for the correct release file
 			downloadUrl, downloadFileName, err := getReleaseURL()
@@ -60,7 +56,7 @@ func updateDisasterCli() {
 				fmt.Println(err)
 			}
 
-			// Download the proper release asset (zip)
+			// // Download the proper release asset (zip)
 			if err := DownloadFile(downloadFileName, downloadUrl); err != nil {
 				fmt.Println(err)
 			}
@@ -71,6 +67,16 @@ func updateDisasterCli() {
 	if !executeDownload {
 		fmt.Println("No new version found")
 	}
+
+}
+
+// Return the path to where the disaster CLI binary is located
+func getSystemPathForDisaster() string {
+	path, err := os.Executable()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return path
 
 }
 
@@ -209,12 +215,27 @@ func (wc WriteCounter) PrintProgress() {
 	fmt.Printf("\rDownloading.......... %s complete", humanize.Bytes(wc.Total))
 }
 
+// Function the detects the OS and return the proper path seperator symbol to use
+func osPathSymbol() string {
+	var output string
+
+	if runtime.GOOS == "windows" {
+		output = "\\"
+	} else {
+		output = "/"
+	}
+
+	return output
+}
+
 // DownloadFile will download a url to a local file. It's efficient because it will
 // write as it downloads and not load the whole file into memory. We pass an io.TeeReader
 // into Copy() to report progress on the download.
 func DownloadFile(filepath string, url string) error {
 
 	var tmpDir string
+
+	path := osPathSymbol()
 
 	// Create the file, but give it a tmp file extension, this means we won't overwrite a
 	// file until it's downloaded, but we'll remove the tmp extension once downloaded.
@@ -225,7 +246,7 @@ func DownloadFile(filepath string, url string) error {
 	} else {
 		tmpDir = os.TempDir()
 	}
-	out, err := os.Create(tmpDir + "download.tmp")
+	out, err := os.Create(tmpDir + path + "download.tmp")
 	if err != nil {
 		return err
 	}
@@ -251,54 +272,83 @@ func DownloadFile(filepath string, url string) error {
 	// Close the file without defer so it can happen before Rename()
 	out.Close()
 
-	if err = os.Rename(tmpDir+"download.tmp", filepath); err != nil {
+	// Rename the dowload.tmp to the proper zipfile name
+	if err = os.Rename(tmpDir+path+"download.tmp", filepath); err != nil {
+		log.Fatal("Error when renaming the zipfile")
 		return err
 	}
 
 	// Open zip file
 	zipFile, err := zip.OpenReader(filepath)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error when attempting to open up the Zip file", err)
+		return err
+
+	}
+
+	// Create a new file
+	finalFile, err := os.Create("disaster.tmp")
+	if err != nil {
+		log.Fatal("Error when attempting to create a new file: ", err)
+		return err
+
 	}
 
 	// Loop through content of zip file
 	for _, f := range zipFile.File {
-		// Create a new file
-		finalFile, err := os.Create(f.Name)
-		if err != nil {
-			return err
-		}
 
 		// Open up binary inside the zip file
 		rc, err := f.Open()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("Error when attempting to open the file inside the zipped asset:", err)
+			return err
+
 		}
 		// Copy all content from binary to a new file.
 		_, err = io.Copy(finalFile, rc)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("Error when copying from binary inside zip to a new file:", err)
+			return err
+
 		}
 
 		rc.Close()
 
 		finalFile.Close()
-
-		if runtime.GOOS == "windows" {
-			finalFile.Name()
-			err := os.Rename(finalFile.Name(), finalFile.Name()+".exe")
-			if err != nil {
-				log.Fatal("Adding exe extension failed: ", err)
-			}
-		}
 	}
 	// Close zipfile
 	zipFile.Close()
 
 	// Clean up and delete the zipfile
 	if err := os.Remove(filepath); err != nil {
-		fmt.Println(err)
+		log.Fatal("Error when removing the zip file: ", err)
+		return err
 	}
+
+	// Get the current location of where the binary is located
+	binDir := getSystemPathForDisaster()
+
+	// Move existing binary to the temp directory
+	if err := os.Rename(binDir, os.TempDir()+path+"old-disaster.exe"); err != nil {
+		log.Fatal("Error when attempting to move the original binary: ", err)
+		return err
+	}
+
+	// Rename the file properly
+	if runtime.GOOS == "windows" {
+		err := os.Rename(finalFile.Name(), binDir)
+		if err != nil {
+			log.Fatal("Adding exe extension failed (rename): ", err)
+			return err
+		}
+	} else {
+		err := os.Rename("disaster.tmp", "disaster")
+		if err != nil {
+			log.Fatal("Rename failed: ", err)
+			return err
+		}
+	}
+
 	fmt.Println("Install Complete")
 	return nil
 }
