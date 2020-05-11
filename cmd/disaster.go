@@ -10,18 +10,19 @@ import (
 )
 
 var (
-	ApikeyFlag      string
-	OutputFlag      string
-	DisplayMapFlag  bool
-	GenerateDocFlag bool
-	VersionString   string = "No version provided"
-	FiltersFlag            = make([]string, 0, 10)
+	ApikeyFlag       string
+	OutputFlag       string
+	DisplayMapFlag   bool
+	GenerateDocFlag  bool
+	VersionString    string = "No version provided"
+	FiltersFlag             = make([]string, 0, 10)
+	DownloadTempPath string
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "disaster",
-	Short: "A CLI too for determining natural catastrophe near you, or a location specified",
-	Long:  `A Golang based CLI too for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.`,
+	Short: "A CLI tool for determining natural catastrophe near you, or a location specified",
+	Long:  `A Golang based CLI tool for determining natural catastrophe near you, or a location specified. Visit https://github.com/karl-cardenas-coding/disaster-cli for more information.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		generateDocFlag := GenerateDocFlag
 		if generateDocFlag {
@@ -44,6 +45,7 @@ func init() {
 	rootCmd.PersistentFlags().BoolVarP(&GenerateDocFlag, "documentation", "c", false, "Generate documentation")
 	eventsCmd.Flags().BoolVarP(&DisplayMapFlag, "display-map", "d", false, "Displays the Google Maps URL")
 	eventsCmd.Flags().StringSliceVarP(&FiltersFlag, "filter", "f", []string{}, "filter events by passing in categories (comma seperated")
+	updateCmd.Flags().StringVarP(&DownloadTempPath, "temp-location", "l", "", "Specify the temporary directory to use for the update process")
 }
 
 func Execute() {
