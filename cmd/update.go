@@ -116,7 +116,7 @@ func checkForNewRelease() (bool, error) {
 // A function that will query the Github repo and return the correct download url from the Release Assets
 // The download url will correspond to the local operation system
 func getReleaseURL() (string, string, error) {
-	url := "https://api.github.com/repos/karl-cardenas-coding/disaster-cli/releases/latest"
+	const url string = "https://api.github.com/repos/karl-cardenas-coding/disaster-cli/releases/latest"
 	var outputUrl string
 	var outFileName string
 
@@ -329,7 +329,8 @@ func DownloadFile(filepath string, url string) error {
 	binDir := getSystemPathForDisaster()
 
 	// Move existing binary to the temp directory
-	if err := os.Rename(binDir, os.TempDir()+path+"old-disaster.exe"); err != nil {
+
+	if err := os.Rename(binDir, os.TempDir()+path+"old-disaster"); err != nil {
 		log.Fatal("Error when attempting to move the original binary: ", err)
 		return err
 	}
