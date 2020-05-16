@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"runtime"
 	"strings"
 
@@ -231,11 +232,11 @@ func osPathSymbol() string {
 // DownloadFile will download a url to a local file. It's efficient because it will
 // write as it downloads and not load the whole file into memory. We pass an io.TeeReader
 // into Copy() to report progress on the download.
-func DownloadFile(filepath string, url string) error {
+func DownloadFile(filePath string, url string) error {
 
 	var tmpDir string
 
-	path := osPathSymbol()
+	pathOSeperator := osPathSymbol()
 
 	// Create the file, but give it a tmp file extension, this means we won't overwrite a
 	// file until it's downloaded, but we'll remove the tmp extension once downloaded.
@@ -246,7 +247,7 @@ func DownloadFile(filepath string, url string) error {
 	} else {
 		tmpDir = os.TempDir()
 	}
-	out, err := os.Create(tmpDir + path + "download.tmp")
+	out, err := os.Create(tmpDir + pathOSeperator + "download.tmp")
 	if err != nil {
 		return err
 	}
@@ -273,13 +274,13 @@ func DownloadFile(filepath string, url string) error {
 	out.Close()
 
 	// Rename the dowload.tmp to the proper zipfile name
-	if err = os.Rename(tmpDir+path+"download.tmp", filepath); err != nil {
+	if err = os.Rename(tmpDir+pathOSeperator+"download.tmp", filePath); err != nil {
 		log.Fatal("Error when renaming the zipfile")
 		return err
 	}
 
 	// Open zip file
-	zipFile, err := zip.OpenReader(filepath)
+	zipFile, err := zip.OpenReader(filePath)
 	if err != nil {
 		log.Fatal("Error when attempting to open up the Zip file", err)
 		return err
@@ -304,6 +305,20 @@ func DownloadFile(filepath string, url string) error {
 			return err
 
 		}
+
+		// Zip Slip function check. First let's get the current directory path.
+		// Second let's ensure the file inside the zip does not attempt to traverse to other directories (zip slip)
+		// https://snyk.io/research/zip-slip-vulnerability#go
+		currentDir, err := os.Getwd()
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		destpath := filepath.Join(currentDir, f.Name)
+		if !strings.HasPrefix(destpath, filepath.Clean(currentDir)+string(os.PathSeparator)) {
+			log.Fatal(f.Name, ": illegal file path detected inside the zip file content.\nTerminating operation as it may contain zip-slip vulnerability!\nVisit  https://snyk.io/research/zip-slip-vulnerability to learn more.")
+		}
+
 		// Copy all content from binary to a new file.
 		_, err = io.Copy(finalFile, rc)
 		if err != nil {
@@ -320,7 +335,7 @@ func DownloadFile(filepath string, url string) error {
 	zipFile.Close()
 
 	// Clean up and delete the zipfile
-	if err := os.Remove(filepath); err != nil {
+	if err := os.Remove(filePath); err != nil {
 		log.Fatal("Error when removing the zip file: ", err)
 		return err
 	}
@@ -330,7 +345,7 @@ func DownloadFile(filepath string, url string) error {
 
 	// Move existing binary to the temp directory
 
-	if err := os.Rename(binDir, os.TempDir()+path+"old-disaster"); err != nil {
+	if err := os.Rename(binDir, os.TempDir()+pathOSeperator+"old-disaster"); err != nil {
 		log.Fatal("Error when attempting to move the original binary: ", err)
 		return err
 	}
