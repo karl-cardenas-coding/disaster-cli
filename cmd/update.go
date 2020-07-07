@@ -6,12 +6,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/dustin/go-humanize"
 	"github.com/karl-cardenas-coding/disaster-cli/library"
@@ -66,7 +67,7 @@ func updateDisasterCli() {
 	}
 
 	if !executeDownload {
-		fmt.Println("No new version found")
+		os.Stdout.Write([]byte("No new version found"))
 	}
 
 }
@@ -75,7 +76,14 @@ func updateDisasterCli() {
 func getSystemPathForDisaster() string {
 	path, err := os.Executable()
 	if err != nil {
-		log.Fatal(err)
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "getSystemPathForDisaster",
+			"function":        "os.Executable",
+			"error":           err,
+			"data":            nil,
+		}).Error("Error getting system path", ISSUE_MSG)
 	}
 	return path
 
@@ -94,7 +102,14 @@ func checkForNewRelease() (bool, error) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error:", err)
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "checkForNewRelease",
+			"function":        "client.Do",
+			"error":           err,
+			"data":            nil,
+		}).Fatal("Error initaiting connection to, ", url, ISSUE_MSG)
 	}
 	defer resp.Body.Close()
 
@@ -102,7 +117,14 @@ func checkForNewRelease() (bool, error) {
 
 	// Unmarshal the JSON to the Github Release strcut
 	if err := json.NewDecoder(resp.Body).Decode(&release); err != nil {
-		log.Println(err)
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "checkForNewRelease",
+			"function":        "json.NewDecoder",
+			"error":           err,
+			"data":            nil,
+		}).Fatal("Error unmarshalling Github response", ISSUE_MSG)
 	}
 
 	// Check to see if the current version is equivalent to the latest release
@@ -128,7 +150,14 @@ func getReleaseURL() (string, string, error) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error:", err)
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "getReleaseURL",
+			"function":        "client.Do",
+			"error":           err,
+			"data":            req,
+		}).Fatal("Error connecting to the Github API", ISSUE_MSG)
 	}
 	defer resp.Body.Close()
 
@@ -136,7 +165,14 @@ func getReleaseURL() (string, string, error) {
 
 	// Unmarshal the JSON to the Github Release strcut
 	if err := json.NewDecoder(resp.Body).Decode(&release); err != nil {
-		log.Println(err)
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "getReleaseURL",
+			"function":        "client.Do",
+			"error":           err,
+			"data":            req,
+		}).Error("Error unmarshaling Github Release data.", ISSUE_MSG)
 	}
 
 	// Loop through the assets list and gather the proper zip file url
@@ -249,12 +285,28 @@ func DownloadFile(filePath string, url string) error {
 	}
 	out, err := os.Create(tmpDir + pathOSeperator + "download.tmp")
 	if err != nil {
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "DownloadFile",
+			"function":        "os.Create",
+			"error":           err,
+			"data":            fmt.Sprint((tmpDir + pathOSeperator + "download.tmp")),
+		}).Error("Error creating temp directory.", ISSUE_MSG)
 		return err
 	}
 
 	// Get the data
 	resp, err := http.Get(url)
 	if err != nil {
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "DownloadFile",
+			"function":        "http.Get",
+			"error":           err,
+			"data":            fmt.Sprint(url),
+		}).Error("Error creating downlaod counter", ISSUE_MSG)
 		out.Close()
 		return err
 	}
@@ -263,6 +315,14 @@ func DownloadFile(filePath string, url string) error {
 	// Create our progress reporter and pass it to be used alongside our writer
 	counter := &WriteCounter{}
 	if _, err = io.Copy(out, io.TeeReader(resp.Body, counter)); err != nil {
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "DownloadFile",
+			"function":        "io.Copy",
+			"error":           err,
+			"data":            fmt.Sprint(out, io.TeeReader(resp.Body, counter)),
+		}).Error("Error creating downlaod counter", ISSUE_MSG)
 		out.Close()
 		return err
 	}
@@ -275,14 +335,28 @@ func DownloadFile(filePath string, url string) error {
 
 	// Rename the dowload.tmp to the proper zipfile name
 	if err = os.Rename(tmpDir+pathOSeperator+"download.tmp", filePath); err != nil {
-		log.Fatal("Error when renaming the zipfile")
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "DownloadFile",
+			"function":        "os.Rename",
+			"error":           err,
+			"data":            fmt.Sprint(tmpDir+pathOSeperator+"download.tmp", filePath),
+		}).Fatal("Error when renaming the zipfile.", ISSUE_MSG)
 		return err
 	}
 
 	// Open zip file
 	zipFile, err := zip.OpenReader(filePath)
 	if err != nil {
-		log.Fatal("Error when attempting to open up the Zip file", err)
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "DownloadFile",
+			"function":        "zip.OpenReader",
+			"error":           err,
+			"data":            "disaster.tmp",
+		}).Fatal("Error when attempting to open up the Zip file.", ISSUE_MSG)
 		return err
 
 	}
@@ -290,7 +364,14 @@ func DownloadFile(filePath string, url string) error {
 	// Create a new file
 	finalFile, err := os.Create("disaster.tmp")
 	if err != nil {
-		log.Fatal("Error when attempting to create a new file: ", err)
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "DownloadFile",
+			"function":        "os.Create",
+			"error":           err,
+			"data":            "disaster.tmp",
+		}).Fatal("Error when attempting to create a new file.", ISSUE_MSG)
 		return err
 
 	}
@@ -301,7 +382,14 @@ func DownloadFile(filePath string, url string) error {
 		// Open up binary inside the zip file
 		rc, err := f.Open()
 		if err != nil {
-			log.Fatal("Error when attempting to open the file inside the zipped asset:", err)
+			log.WithFields(log.Fields{
+				"package":         "cmd",
+				"file":            "update.go",
+				"parent_function": "DownloadFile",
+				"function":        "f.Open",
+				"error":           err,
+				"data":            nil,
+			}).Fatal("Error when attempting to open the file inside the zipped asset:", ISSUE_MSG)
 			return err
 
 		}
@@ -311,18 +399,39 @@ func DownloadFile(filePath string, url string) error {
 		// https://snyk.io/research/zip-slip-vulnerability#go
 		currentDir, err := os.Getwd()
 		if err != nil {
-			fmt.Println(err)
+			log.WithFields(log.Fields{
+				"package":         "cmd",
+				"file":            "update.go",
+				"parent_function": "DownloadFile",
+				"function":        "os.Getwd",
+				"error":           err,
+				"data":            nil,
+			}).Error("Error getting current working directory", ISSUE_MSG)
 		}
 
 		destpath := filepath.Join(currentDir, f.Name)
 		if !strings.HasPrefix(destpath, filepath.Clean(currentDir)+string(os.PathSeparator)) {
-			log.Fatal(f.Name, ": illegal file path detected inside the zip file content.\nTerminating operation as it may contain zip-slip vulnerability!\nVisit  https://snyk.io/research/zip-slip-vulnerability to learn more.")
+			log.WithFields(log.Fields{
+				"package":         "cmd",
+				"file":            "update.go",
+				"parent_function": "DownloadFile",
+				"function":        "strings.HasPrefix",
+				"error":           err,
+				"data":            fmt.Sprint(destpath, filepath.Clean(currentDir)+string(os.PathSeparator)),
+			}).Fatal("illegal file path detected inside the zip file content.\nTerminating operation as it may contain zip-slip vulnerability!\nVisit  https://snyk.io/research/zip-slip-vulnerability to learn more.", ISSUE_MSG)
 		}
 
 		// Copy all content from binary to a new file.
 		_, err = io.Copy(finalFile, rc)
 		if err != nil {
-			log.Fatal("Error when copying from binary inside zip to a new file:", err)
+			log.WithFields(log.Fields{
+				"package":         "cmd",
+				"file":            "update.go",
+				"parent_function": "DownloadFile",
+				"function":        "io.Copy",
+				"error":           err,
+				"data":            fmt.Sprint(finalFile, rc),
+			}).Fatal("Error when copying from binary inside zip to a new file", ISSUE_MSG)
 			return err
 
 		}
@@ -336,7 +445,14 @@ func DownloadFile(filePath string, url string) error {
 
 	// Clean up and delete the zipfile
 	if err := os.Remove(filePath); err != nil {
-		log.Fatal("Error when removing the zip file: ", err)
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "DownloadFile",
+			"function":        "os.Remove",
+			"error":           err,
+			"data":            nil,
+		}).Fatal("Error when removing the zip file", ISSUE_MSG)
 		return err
 	}
 
@@ -346,7 +462,14 @@ func DownloadFile(filePath string, url string) error {
 	// Move existing binary to the temp directory
 
 	if err := os.Rename(binDir, os.TempDir()+pathOSeperator+"old-disaster"); err != nil {
-		log.Fatal("Error when attempting to move the original binary: ", err)
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "DownloadFile",
+			"function":        "os.Rename",
+			"error":           err,
+			"data":            fmt.Sprint(binDir, os.TempDir()+pathOSeperator+"old-disaster"),
+		}).Fatal("Error when attempting to move the original binary", ISSUE_MSG)
 		return err
 	}
 
@@ -354,18 +477,32 @@ func DownloadFile(filePath string, url string) error {
 	if runtime.GOOS == "windows" {
 		err := os.Rename(finalFile.Name(), binDir)
 		if err != nil {
-			log.Fatal("Adding exe extension failed (rename): ", err)
+			log.WithFields(log.Fields{
+				"package":         "cmd",
+				"file":            "update.go",
+				"parent_function": "DownloadFile",
+				"function":        "os.Rename",
+				"error":           err,
+				"data":            fmt.Sprint(finalFile.Name(), binDir),
+			}).Fatal("Adding exe extension failed (rename)", ISSUE_MSG)
 			return err
 		}
 	} else {
 		err := os.Rename("disaster.tmp", "disaster")
 		if err != nil {
-			log.Fatal("Rename failed: ", err)
+			log.WithFields(log.Fields{
+				"package":         "cmd",
+				"file":            "update.go",
+				"parent_function": "DownloadFile",
+				"function":        "os.Rename",
+				"error":           err,
+				"data":            "disaster.tmp, disaster",
+			}).Fatal("Rename failed:", ISSUE_MSG)
 			return err
 		}
 	}
 
-	fmt.Println("Install Complete")
+	log.Info("Install Complete")
 	return nil
 }
 

@@ -3,8 +3,9 @@ package library
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func QueryEventAPI(apikey string) EventResponse {
@@ -38,14 +39,28 @@ func QueryCategoriesAPI(apikey string, category string) CategoriesResponse {
 
 	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println("Error:", err)
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "query.go",
+			"parent_function": "QueryCategoriesAPI",
+			"function":        "http.Get",
+			"error":           err,
+			"data":            url,
+		}).Error("Error conencting to NASA's API.", ISSUE_MSG)
 	}
 	defer resp.Body.Close()
 
 	var records CategoriesResponse
 
 	if err := json.NewDecoder(resp.Body).Decode(&records); err != nil {
-		log.Println(err)
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "query.go",
+			"parent_function": "QueryCategoriesAPI",
+			"function":        "json.NewDecoder",
+			"error":           err,
+			"data":            records,
+		}).Error("Error conencting to NASA's API.", ISSUE_MSG)
 	}
 
 	return records

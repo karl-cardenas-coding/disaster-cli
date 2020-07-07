@@ -7,6 +7,7 @@ import (
 
 	"github.com/jedib0t/go-pretty/table"
 	"github.com/karl-cardenas-coding/disaster-cli/library"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -73,9 +74,16 @@ func outputJSON(records library.EventResponse, filters []string) {
 
 		}
 
-		json, err := json.Marshal(&list)
+		json, err := json.MarshalIndent(&list, "", "")
 		if err != nil {
-			fmt.Println(err)
+			log.WithFields(log.Fields{
+				"package":         "cmd",
+				"file":            "events.go",
+				"parent_function": "outputJSON",
+				"function":        "json.Marshal",
+				"error":           err,
+				"data":            list,
+			}).Error("Error marshalling JSON", ISSUE_MSG)
 		}
 		os.Stdout.Write(json)
 
@@ -83,9 +91,16 @@ func outputJSON(records library.EventResponse, filters []string) {
 
 	if len(filters) == 0 {
 
-		json, err := json.Marshal(&records)
+		json, err := json.MarshalIndent(&records, "", "")
 		if err != nil {
-			fmt.Println(err)
+			log.WithFields(log.Fields{
+				"package":         "cmd",
+				"file":            "events.go",
+				"parent_function": "outputJSON",
+				"function":        "json.Marshal",
+				"error":           err,
+				"data":            records,
+			}).Error("Error marshalling JSON", ISSUE_MSG)
 		}
 		os.Stdout.Write(json)
 

@@ -7,6 +7,7 @@ import (
 
 	"github.com/jedib0t/go-pretty/table"
 	"github.com/karl-cardenas-coding/disaster-cli/library"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -57,9 +58,16 @@ The returned category may be used with the --filter flag for the event cmd.`,
 		}
 
 		if outputFlag == "json" {
-			json, err := json.Marshal(records)
+			json, err := json.MarshalIndent(records, "", "")
 			if err != nil {
-				fmt.Println(err)
+				log.WithFields(log.Fields{
+					"package":         "cmd",
+					"file":            "categories.go",
+					"parent_function": "Run",
+					"function":        "json.Marshal",
+					"error":           err,
+					"data":            fmt.Sprint(cmd, "./documentation/"),
+				}).Error("Error marshaling JSON", ISSUE_MSG)
 			}
 			os.Stdout.Write(json)
 		}
