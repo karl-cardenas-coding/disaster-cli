@@ -77,12 +77,12 @@ func getSystemPathForDisaster() string {
 	path, err := os.Executable()
 	if err != nil {
 		log.WithFields(log.Fields{
-			"package":  "cmd",
-			"file":     "update.go",
+			"package":         "cmd",
+			"file":            "update.go",
 			"parent_function": "getSystemPathForDisaster",
-			"function": "os.Executable",
-			"error":    err,
-			"data":     nil,
+			"function":        "os.Executable",
+			"error":           err,
+			"data":            nil,
 		}).Error("Error getting system path", ISSUE_MSG)
 	}
 	return path
@@ -103,13 +103,13 @@ func checkForNewRelease() (bool, error) {
 	resp, err := client.Do(req)
 	if err != nil {
 		log.WithFields(log.Fields{
-			"package":  "cmd",
-			"file":     "update.go",
+			"package":         "cmd",
+			"file":            "update.go",
 			"parent_function": "checkForNewRelease",
-			"function": "client.Do",
-			"error":    err,
-			"data":     nil,
-		}).Fatal("Error initaiting connection to, ",url, ISSUE_MSG)
+			"function":        "client.Do",
+			"error":           err,
+			"data":            nil,
+		}).Fatal("Error initaiting connection to, ", url, ISSUE_MSG)
 	}
 	defer resp.Body.Close()
 
@@ -118,12 +118,12 @@ func checkForNewRelease() (bool, error) {
 	// Unmarshal the JSON to the Github Release strcut
 	if err := json.NewDecoder(resp.Body).Decode(&release); err != nil {
 		log.WithFields(log.Fields{
-			"package":  "cmd",
-			"file":     "update.go",
+			"package":         "cmd",
+			"file":            "update.go",
 			"parent_function": "checkForNewRelease",
-			"function": "json.NewDecoder",
-			"error":    err,
-			"data":     nil,
+			"function":        "json.NewDecoder",
+			"error":           err,
+			"data":            nil,
 		}).Fatal("Error unmarshalling Github response", ISSUE_MSG)
 	}
 
@@ -151,12 +151,12 @@ func getReleaseURL() (string, string, error) {
 	resp, err := client.Do(req)
 	if err != nil {
 		log.WithFields(log.Fields{
-			"package":  "cmd",
-			"file":     "update.go",
+			"package":         "cmd",
+			"file":            "update.go",
 			"parent_function": "getReleaseURL",
-			"function": "client.Do",
-			"error":    err,
-			"data":     req,
+			"function":        "client.Do",
+			"error":           err,
+			"data":            req,
 		}).Fatal("Error connecting to the Github API", ISSUE_MSG)
 	}
 	defer resp.Body.Close()
@@ -166,12 +166,12 @@ func getReleaseURL() (string, string, error) {
 	// Unmarshal the JSON to the Github Release strcut
 	if err := json.NewDecoder(resp.Body).Decode(&release); err != nil {
 		log.WithFields(log.Fields{
-			"package":  "cmd",
-			"file":     "update.go",
+			"package":         "cmd",
+			"file":            "update.go",
 			"parent_function": "getReleaseURL",
-			"function": "client.Do",
-			"error":    err,
-			"data":     req,
+			"function":        "client.Do",
+			"error":           err,
+			"data":            req,
 		}).Error("Error unmarshaling Github Release data.", ISSUE_MSG)
 	}
 
@@ -291,7 +291,7 @@ func DownloadFile(filePath string, url string) error {
 			"parent_function": "DownloadFile",
 			"function":        "os.Create",
 			"error":           err,
-			"data":            fmt.Sprint((tmpDir + pathOSeperator + "download.tmp"),
+			"data":            fmt.Sprint((tmpDir + pathOSeperator + "download.tmp")),
 		}).Error("Error creating temp directory.", ISSUE_MSG)
 		return err
 	}
@@ -491,12 +491,12 @@ func DownloadFile(filePath string, url string) error {
 		err := os.Rename("disaster.tmp", "disaster")
 		if err != nil {
 			log.WithFields(log.Fields{
-				"package":  "cmd",
-				"file":     "update.go",
+				"package":         "cmd",
+				"file":            "update.go",
 				"parent_function": "DownloadFile",
-				"function": "os.Rename"
-				"error":    err,
-				"data":     "disaster.tmp, disaster",
+				"function":        "os.Rename",
+				"error":           err,
+				"data":            "disaster.tmp, disaster",
 			}).Fatal("Rename failed:", ISSUE_MSG)
 			return err
 		}

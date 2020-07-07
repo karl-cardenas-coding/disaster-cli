@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 
 	log "github.com/sirupsen/logrus"
@@ -33,12 +34,12 @@ var rootCmd = &cobra.Command{
 			err := doc.GenMarkdownTree(cmd, "./documentation/")
 			if err != nil {
 				log.WithFields(log.Fields{
-					"package":  "cmd",
-					"file":     "disaster.go",
+					"package":         "cmd",
+					"file":            "disaster.go",
 					"parent_function": "generateDocFlag",
-					"function": "doc.GenMarkdownTree"
-					"error":    err,
-					"data":     fmt.Sprint(cmd, "./documentation/"),
+					"function":        "doc.GenMarkdownTree",
+					"error":           err,
+					"data":            fmt.Sprint(cmd, "./documentation/"),
 				}).Fatal("Error generating markdown content", ISSUE_MSG)
 			}
 		}
@@ -46,12 +47,12 @@ var rootCmd = &cobra.Command{
 		err := cmd.Help()
 		if err != nil {
 			log.WithFields(log.Fields{
-				"package":  "cmd",
-				"file":     "disaster.go",
+				"package":         "cmd",
+				"file":            "disaster.go",
 				"parent_function": "generateDocFlag",
-				"function": "cmd.Help",
-				"error":    err,
-				"data":     nil,
+				"function":        "cmd.Help",
+				"error":           err,
+				"data":            nil,
 			}).Fatal("Error outputting help!", ISSUE_MSG)
 		}
 	},
