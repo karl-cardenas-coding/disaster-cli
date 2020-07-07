@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"fmt"
-	"log"
 	"os"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
@@ -19,6 +19,10 @@ var (
 	DownloadTempPath string
 )
 
+const (
+	ISSUE_MSG = " Please open up a Github issue to report this error! https://github.com/karl-cardenas-coding/disaster-cli"
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "disaster",
 	Short: "A CLI tool for determining natural catastrophe near you, or a location specified",
@@ -28,13 +32,27 @@ var rootCmd = &cobra.Command{
 		if generateDocFlag {
 			err := doc.GenMarkdownTree(cmd, "./documentation/")
 			if err != nil {
-				log.Fatal(err)
+				log.WithFields(log.Fields{
+					"package":  "cmd",
+					"file":     "disaster.go",
+					"parent_function": "generateDocFlag",
+					"function": "doc.GenMarkdownTree"
+					"error":    err,
+					"data":     fmt.Sprint(cmd, "./documentation/"),
+				}).Fatal("Error generating markdown content", ISSUE_MSG)
 			}
 		}
 
 		err := cmd.Help()
 		if err != nil {
-			log.Fatal(err)
+			log.WithFields(log.Fields{
+				"package":  "cmd",
+				"file":     "disaster.go",
+				"parent_function": "generateDocFlag",
+				"function": "cmd.Help",
+				"error":    err,
+				"data":     nil,
+			}).Fatal("Error outputting help!", ISSUE_MSG)
 		}
 	},
 }
@@ -46,11 +64,26 @@ func init() {
 	eventsCmd.Flags().BoolVarP(&DisplayMapFlag, "display-map", "d", false, "Displays the Google Maps URL")
 	eventsCmd.Flags().StringSliceVarP(&FiltersFlag, "filter", "f", []string{}, "filter events by passing in categories (comma seperated")
 	updateCmd.Flags().StringVarP(&DownloadTempPath, "temp-location", "l", "", "Specify the temporary directory to use for the update process")
+
+	// Establish logging default
+	log.SetFormatter(&log.TextFormatter{
+		DisableColors: false,
+		FullTimestamp: true,
+	})
+	log.SetOutput(os.Stdout)
+
+	log.SetLevel(log.WarnLevel)
 }
 
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
+		log.WithFields(log.Fields{
+			"package":  "cmd",
+			"file":     "disaster.go",
+			"function": "Execute",
+			"error":    err,
+			"data":     nil,
+		}).Fatal("Error executing the CLI!", ISSUE_MSG)
 		os.Exit(1)
 	}
 }
