@@ -74,7 +74,7 @@ func outputJSON(records library.EventResponse, filters []string) {
 
 		}
 
-		json, err := json.Marshal(&list)
+		json, err := json.MarshalIndent(&list, "", "")
 		if err != nil {
 			log.WithFields(log.Fields{
 				"package":         "cmd",
@@ -91,7 +91,7 @@ func outputJSON(records library.EventResponse, filters []string) {
 
 	if len(filters) == 0 {
 
-		json, err := json.Marshal(&records)
+		json, err := json.MarshalIndent(&records, "", "")
 		if err != nil {
 			log.WithFields(log.Fields{
 				"package":         "cmd",
