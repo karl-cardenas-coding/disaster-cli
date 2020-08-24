@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -17,6 +16,6 @@ var versionCmd = &cobra.Command{
 	Long:  `Prints the current version number of disaster-cli`,
 	Run: func(cmd *cobra.Command, args []string) {
 		version := fmt.Sprintf("disaster %s", VersionString)
-		os.Stdout.Write([]byte(version))
+		fmt.Println(version)
 	},
 }
