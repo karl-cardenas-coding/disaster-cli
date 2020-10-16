@@ -58,7 +58,7 @@ The returned category may be used with the --filter flag for the event cmd.`,
 		}
 
 		if outputFlag == "json" {
-			json, err := json.MarshalIndent(records, "", "")
+			json, err := json.MarshalIndent(records, " ", " ")
 			if err != nil {
 				log.WithFields(log.Fields{
 					"package":         "cmd",
