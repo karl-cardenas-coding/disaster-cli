@@ -296,6 +296,18 @@ func DownloadFile(filePath string, url string) error {
 		return err
 	}
 
+	if err := os.Chmod(tmpDir+pathOSeperator+"download.tmp", 0755); err != nil {
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "DownloadFile",
+			"function":        "os.Chmod",
+			"error":           err,
+			"data":            fmt.Sprint((tmpDir + pathOSeperator + "download.tmp")),
+		}).Error("Error changing permissions.", ISSUE_MSG)
+		return err
+	}
+
 	// Get the data
 	resp, err := http.Get(url)
 	if err != nil {
@@ -374,6 +386,18 @@ func DownloadFile(filePath string, url string) error {
 		}).Fatal("Error when attempting to create a new file.", ISSUE_MSG)
 		return err
 
+	}
+
+	if err := os.Chmod("disaster.tmp", 0755); err != nil {
+		log.WithFields(log.Fields{
+			"package":         "cmd",
+			"file":            "update.go",
+			"parent_function": "DownloadFile",
+			"function":        "os.Chmod",
+			"error":           err,
+			"data":            "disaster.tmp",
+		}).Error("Error changing permissions.", ISSUE_MSG)
+		return err
 	}
 
 	// Loop through content of zip file
@@ -527,7 +551,7 @@ func userInput() (bool, error) {
 		case 'n':
 			output = false
 		default:
-			fmt.Println("Invalid entry! Please enter Y OR N")
+			fmt.Println("Invalid entry! Please enter Y/n")
 		}
 
 		if output {
