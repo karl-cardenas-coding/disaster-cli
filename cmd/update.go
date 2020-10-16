@@ -292,7 +292,7 @@ func DownloadFile(filePath string, url string) error {
 			"function":        "os.Create",
 			"error":           err,
 			"data":            fmt.Sprint((tmpDir + pathOSeperator + "download.tmp")),
-		}).Error("Error creating temp directory.", ISSUE_MSG)
+		}).Error("Error creating temp directory.\n\n", ISSUE_MSG)
 		return err
 	}
 
@@ -304,7 +304,7 @@ func DownloadFile(filePath string, url string) error {
 			"function":        "os.Chmod",
 			"error":           err,
 			"data":            fmt.Sprint((tmpDir + pathOSeperator + "download.tmp")),
-		}).Error("Error changing permissions.", ISSUE_MSG)
+		}).Error("Error changing permissions.\n\n", ISSUE_MSG)
 		return err
 	}
 
@@ -318,7 +318,7 @@ func DownloadFile(filePath string, url string) error {
 			"function":        "http.Get",
 			"error":           err,
 			"data":            fmt.Sprint(url),
-		}).Error("Error creating downlaod counter", ISSUE_MSG)
+		}).Error("Error creating the download counter\n\n", ISSUE_MSG)
 		out.Close()
 		return err
 	}
@@ -334,7 +334,7 @@ func DownloadFile(filePath string, url string) error {
 			"function":        "io.Copy",
 			"error":           err,
 			"data":            fmt.Sprint(out, io.TeeReader(resp.Body, counter)),
-		}).Error("Error creating downlaod counter", ISSUE_MSG)
+		}).Error("Error creating the download counter.\n\n", ISSUE_MSG)
 		out.Close()
 		return err
 	}
@@ -354,7 +354,7 @@ func DownloadFile(filePath string, url string) error {
 			"function":        "os.Rename",
 			"error":           err,
 			"data":            fmt.Sprint(tmpDir+pathOSeperator+"download.tmp", filePath),
-		}).Fatal("Error when renaming the zipfile.", ISSUE_MSG)
+		}).Fatal("Error when renaming the zipfile.\n\n", ISSUE_MSG)
 		return err
 	}
 
@@ -368,7 +368,7 @@ func DownloadFile(filePath string, url string) error {
 			"function":        "zip.OpenReader",
 			"error":           err,
 			"data":            "disaster.tmp",
-		}).Fatal("Error when attempting to open up the Zip file.", ISSUE_MSG)
+		}).Fatal("Error when attempting to open up the Zip file.\n\n", ISSUE_MSG)
 		return err
 
 	}
@@ -383,7 +383,7 @@ func DownloadFile(filePath string, url string) error {
 			"function":        "os.Create",
 			"error":           err,
 			"data":            "disaster.tmp",
-		}).Fatal("Error when attempting to create a new file.", ISSUE_MSG)
+		}).Fatal("Error when attempting to create a new file.\n\n", ISSUE_MSG)
 		return err
 
 	}
@@ -396,7 +396,7 @@ func DownloadFile(filePath string, url string) error {
 			"function":        "os.Chmod",
 			"error":           err,
 			"data":            "disaster.tmp",
-		}).Error("Error changing permissions.", ISSUE_MSG)
+		}).Error("Error changing permissions.\n\n", ISSUE_MSG)
 		return err
 	}
 
@@ -413,7 +413,7 @@ func DownloadFile(filePath string, url string) error {
 				"function":        "f.Open",
 				"error":           err,
 				"data":            nil,
-			}).Fatal("Error when attempting to open the file inside the zipped asset:", ISSUE_MSG)
+			}).Fatal("Error when attempting to open the file inside the zipped asset: \n\n", ISSUE_MSG)
 			return err
 
 		}
@@ -442,7 +442,7 @@ func DownloadFile(filePath string, url string) error {
 				"function":        "strings.HasPrefix",
 				"error":           err,
 				"data":            fmt.Sprint(destpath, filepath.Clean(currentDir)+string(os.PathSeparator)),
-			}).Fatal("illegal file path detected inside the zip file content.\nTerminating operation as it may contain zip-slip vulnerability!\nVisit  https://snyk.io/research/zip-slip-vulnerability to learn more.", ISSUE_MSG)
+			}).Fatal("illegal file path detected inside the zip file content.\nTerminating operation as it may contain zip-slip vulnerability!\n\n. Visit  https://snyk.io/research/zip-slip-vulnerability to learn more.\n\n", ISSUE_MSG)
 		}
 
 		// Copy all content from binary to a new file.
@@ -484,7 +484,7 @@ func DownloadFile(filePath string, url string) error {
 	binDir := getSystemPathForDisaster()
 
 	// Move existing binary to the temp directory
-
+	fmt.Println("New file pre-move: ", os.TempDir()+pathOSeperator+"old-disaster")
 	if err := os.Rename(binDir, os.TempDir()+pathOSeperator+"old-disaster"); err != nil {
 		log.WithFields(log.Fields{
 			"package":         "cmd",
@@ -493,7 +493,7 @@ func DownloadFile(filePath string, url string) error {
 			"function":        "os.Rename",
 			"error":           err,
 			"data":            fmt.Sprint(binDir, os.TempDir()+pathOSeperator+"old-disaster"),
-		}).Fatal("Error when attempting to move the original binary", ISSUE_MSG)
+		}).Fatal("Error when attempting to move the original binary. Try using elevated permissions (sudo).\n\n", ISSUE_MSG)
 		return err
 	}
 
@@ -512,7 +512,7 @@ func DownloadFile(filePath string, url string) error {
 			return err
 		}
 	} else {
-		err := os.Rename("disaster.tmp", "disaster")
+		err := os.Rename("disaster.tmp", binDir)
 		if err != nil {
 			log.WithFields(log.Fields{
 				"package":         "cmd",

@@ -12,7 +12,7 @@ A Golang based CLI tool for determining natural catastrophe near you, or a locat
 
 
 ## Installation
-Disaster-CLI is distributed as a single binary. [Download](https://github.com/karl-cardenas-coding/disaster-cli/releases) the binary and install Disaster-CLI by unzipping it and moving it to a directory included in your system's [PATH](https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them).
+Disaster-CLI is distributed as a single binary. [Download](https://github.com/karl-cardenas-coding/disaster-cli/releases) the binary and install Disaster-CLI by unzipping it and moving it to a directory included in your system's [PATH](https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them). `~/bin` is the recommended path for UNIX/LINUX environments. 
 
 
 ## Usage

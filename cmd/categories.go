@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jedib0t/go-pretty/table"
+	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/karl-cardenas-coding/disaster-cli/library"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
