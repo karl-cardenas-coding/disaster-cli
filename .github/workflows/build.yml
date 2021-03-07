@@ -265,5 +265,6 @@ jobs:
 
       - name: "release"
         run: |
+            npm install
              npm install @semantic-release/exec -D
              npx semantic-release
