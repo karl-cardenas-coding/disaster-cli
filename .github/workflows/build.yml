@@ -172,7 +172,7 @@ jobs:
         with:
           name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
           path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-            - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v1
         with:
           name: VERSION.env
           path: VERSION.env
