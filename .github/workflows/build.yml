@@ -2,7 +2,7 @@ name: Release to Production
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -78,7 +78,7 @@ jobs:
                   curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
                   dep ensure
               fi
-              npm install
+              npm ci
               npm install @semantic-release/exec -D
               npx semantic-release --dry-run
               cat VERSION.env

@@ -2,9 +2,9 @@ name: Test
 
 on:
   push:
-    branches-ignore: [ master ]
+    branches-ignore: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 env:
   GITHUB_TOKEN: ${{ github.token }}
   LINT_VERSION: "1.41.1"
@@ -26,6 +26,7 @@ jobs:
 
     - name: next version
       run: |
+            npm ci
             npm install @semantic-release/exec -D
             npx semantic-release --dry-run
 
