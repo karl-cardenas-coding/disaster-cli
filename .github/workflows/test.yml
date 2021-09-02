@@ -2,12 +2,12 @@ name: Test
 
 on:
   push:
-    branches-ignore: [ master ]
+    branches-ignore: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 env:
   GITHUB_TOKEN: ${{ github.token }}
-  LINT_VERSION: "1.25.1"
+  LINT_VERSION: "1.41.1"
 
 jobs:
   test:
@@ -18,7 +18,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v1
       with:
-        go-version: 1.16
+        go-version: 1.17
       id: go
 
     - name: Check out code into the Go module directory
@@ -26,6 +26,7 @@ jobs:
 
     - name: next version
       run: |
+            npm ci
             npm install @semantic-release/exec -D
             npx semantic-release --dry-run
 
@@ -79,7 +80,7 @@ jobs:
         mkdir tempbin
         echo 'Y' | ./disaster update -l ./tempbin/
         sleep 5
-        chmod 775 disaster
+        chmod +x disaster
         ./disaster version
     - uses: actions/upload-artifact@v1
       with:
