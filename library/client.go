@@ -12,10 +12,30 @@ const (
 	ISSUE_MSG = " Please open up a Github issue to report this error! https://github.com/karl-cardenas-coding/disaster-cli"
 )
 
-var disasterClient = &http.Client{Timeout: 10 * time.Second}
+var disasterClient = &http.Client{
+	Timeout: 10 * time.Second,
+	Transport: &http.Transport{
+		MaxIdleConns:          10,
+		ResponseHeaderTimeout: 10 * time.Second,
+		IdleConnTimeout:       5 * time.Second,
+		DisableCompression:    true,
+		ForceAttemptHTTP2:     true,
+	},
+}
 
 func getJson(url string, target interface{}) error {
-	r, err := disasterClient.Get(url)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		log.Println("unable to create HTTP request")
+	}
+
+	req.Header = http.Header{
+		"Content-Type":    []string{`application/json; charset=utf-8`},
+		"Accept-Encoding": []string{"gzip, deflate, br"},
+		"Accept":          []string{"application/json"},
+	}
+
+	r, err := disasterClient.Do(req)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"package":         "cmd",

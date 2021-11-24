@@ -4,20 +4,49 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 )
 
 func QueryEventAPI(apikey string) EventResponse {
-	url := fmt.Sprintf("https://eonet.sci.gsfc.nasa.gov/api/v3/events?api_key=%s", apikey)
 
-	resp, err := http.Get(url)
+	var (
+		url     string
+		records EventResponse
+	)
+	if apikey != "" {
+		url = fmt.Sprintf("https://eonet.gsfc.nasa.gov/api/v3/events?api_key=%s", apikey)
+	} else {
+		url = "https://eonet.gsfc.nasa.gov/api/v3/events"
+	}
+
+	client := &http.Client{
+		Transport: &http.Transport{
+			MaxIdleConns:          10,
+			ResponseHeaderTimeout: 10 * time.Second,
+			IdleConnTimeout:       5 * time.Second,
+			DisableCompression:    true,
+			ForceAttemptHTTP2:     true,
+		},
+	}
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		log.Println("unable to create HTTP request")
+	}
+
+	req.Header = http.Header{
+		"Content-Type":    []string{`application/json; charset=utf-8`},
+		"Accept-Encoding": []string{"gzip, deflate, br"},
+		"Accept":          []string{"application/json"},
+	}
+
+	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 	defer resp.Body.Close()
-
-	var records EventResponse
 
 	if err := json.NewDecoder(resp.Body).Decode(&records); err != nil {
 		log.Println(err)
@@ -28,16 +57,40 @@ func QueryEventAPI(apikey string) EventResponse {
 }
 
 func QueryCategoriesAPI(apikey string, category string) CategoriesResponse {
-	var url string
+	var (
+		url     string
+		records CategoriesResponse
+	)
 
 	if category == "" {
-		url = fmt.Sprintf("https://eonet.sci.gsfc.nasa.gov/api/v3/categories/%s?api_key=%s", category, apikey)
+		url = fmt.Sprintf("https://eonet.gsfc.nasa.gov/api/v3/categories/%s?api_key=%s", category, apikey)
 	} else {
-		url = fmt.Sprintf("https://eonet.sci.gsfc.nasa.gov/api/v3/categories?api_key=%s", apikey)
+		url = fmt.Sprintf("https://eonet.gsfc.nasa.gov/api/v3/categories?api_key=%s", apikey)
 
 	}
 
-	resp, err := http.Get(url)
+	client := &http.Client{
+		Transport: &http.Transport{
+			MaxIdleConns:          10,
+			ResponseHeaderTimeout: 10 * time.Second,
+			IdleConnTimeout:       5 * time.Second,
+			DisableCompression:    true,
+			ForceAttemptHTTP2:     true,
+		},
+	}
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		log.Println("unable to create HTTP request")
+	}
+
+	req.Header = http.Header{
+		"Content-Type":    []string{`application/json; charset=utf-8`},
+		"Accept-Encoding": []string{"gzip, deflate, br"},
+		"Accept":          []string{"application/json"},
+	}
+
+	resp, err := client.Do(req)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"package":         "cmd",
@@ -49,8 +102,6 @@ func QueryCategoriesAPI(apikey string, category string) CategoriesResponse {
 		}).Error("Error conencting to NASA's API.", ISSUE_MSG)
 	}
 	defer resp.Body.Close()
-
-	var records CategoriesResponse
 
 	if err := json.NewDecoder(resp.Body).Decode(&records); err != nil {
 		log.WithFields(log.Fields{

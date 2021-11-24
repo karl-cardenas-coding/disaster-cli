@@ -13,6 +13,6 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/pflag v1.0.5 // indirect
-	golang.org/x/sys v0.0.0-20210831042530-f4d43177bf5e // indirect
+	golang.org/x/sys v0.0.0-20211123173158-ef496fb156ab // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

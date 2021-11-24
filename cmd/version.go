@@ -15,7 +15,7 @@ var versionCmd = &cobra.Command{
 	Short: "Print the current version number of disaster-cli",
 	Long:  `Prints the current version number of disaster-cli`,
 	Run: func(cmd *cobra.Command, args []string) {
-		version := fmt.Sprintf("disaster %s", VersionString)
+		version := fmt.Sprintf("disaster %s%s", "v", VersionString)
 		fmt.Println(version)
 	},
 }

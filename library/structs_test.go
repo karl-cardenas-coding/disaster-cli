@@ -6,7 +6,7 @@ import (
 )
 
 func TestEventStrcuts(t *testing.T) {
-	urlEvents := "https://eonet.sci.gsfc.nasa.gov/api/v3/events"
+	urlEvents := "https://eonet.gsfc.nasa.gov/api/v3/events"
 	event := new(EventResponse)
 
 	err := getJson(urlEvents, event)
@@ -30,7 +30,7 @@ func TestEventStrcuts(t *testing.T) {
 
 func TestCategoriestrcuts(t *testing.T) {
 
-	urlCategories := "https://eonet.sci.gsfc.nasa.gov/api/v3/categories/"
+	urlCategories := "https://eonet.gsfc.nasa.gov/api/v3/categories/"
 	CategoriesRes := new(CategoriesResponse)
 
 	err := getJson(urlCategories, CategoriesRes)
