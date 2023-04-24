@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/karl-cardenas-coding/disaster-cli/workflows/Go/badge.svg?branch=master)](https://github.com/karl-cardenas-coding/disaster-cli/actions?branch=main)
+[![Actions Status](https://github.com/karl-cardenas-coding/disaster-cli/workflows/Go/badge.svg?branch=main)](https://github.com/karl-cardenas-coding/disaster-cli/actions?branch=main)
 [![Go version](https://img.shields.io/github/go-mod/go-version/karl-cardenas-coding/disaster-cli)](https://golang.org/dl/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/karl-cardenas-coding/disaster-cli.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/karl-cardenas-coding/disaster-cli/alerts/)
@@ -50,12 +50,16 @@ For more info visit https://api.nasa.gov/
 
 ## Helpful Links
 
-API Documentation:  https://eonet.sci.gsfc.nasa.gov/docs/v3
+API Documentation:  https://eonet.gsfc.nasa.gov/docs/v3
 
 Golang Cobra CLI Framework:https://github.com/spf13/cobra
 
 Go-pretty: https://github.com/jedib0t/go-pretty
 
-Source: https://eonet.sci.gsfc.nasa.gov/docs/v3
+Source: https://eonet.gsfc.nasa.gov/
 
 UI: https://worldview.earthdata.nasa.gov/
+
+## Open Source Licenses
+
+All utilized open-source licenses can be found in the [Open Source Acknowledgements](./documentation/open-source.md) resource.
