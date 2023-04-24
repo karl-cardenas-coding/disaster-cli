@@ -1,8 +1,6 @@
-[![Actions Status](https://github.com/karl-cardenas-coding/disaster-cli/workflows/Go/badge.svg?branch=main)](https://github.com/karl-cardenas-coding/disaster-cli/actions?branch=main)
+[![Main Branch](https://github.com/karl-cardenas-coding/disaster-cli/actions/workflows/build.yml/badge.svg)](https://github.com/karl-cardenas-coding/disaster-cli/actions/workflows/build.yml)
 [![Go version](https://img.shields.io/github/go-mod/go-version/karl-cardenas-coding/disaster-cli)](https://golang.org/dl/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/karl-cardenas-coding/disaster-cli.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/karl-cardenas-coding/disaster-cli/alerts/)
-[![dependa-bot](https://badgen.net/dependabot/karl-cardenas-coding/disaster-cli/247598538?icon=dependabot)](https://badgen.net/dependabot/thepracticaldev/dev.to?icon=dependabot)
 
 <p align="center">
   <img src="/static/img/disaster-gopher.png" alt="drawing" width="400"/>
