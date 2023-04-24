@@ -36,8 +36,7 @@ jobs:
                 curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
                 dep ensure
             fi
-            npm install
-            npm install @semantic-release/exec -D
+            npm ci
             npx semantic-release --dry-run
             cat VERSION.env
             source VERSION.env
