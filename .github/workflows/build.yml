@@ -60,14 +60,14 @@ jobs:
             GOARCH: arm64
             GOOS: darwin
       steps:
-        -
-          id: go
-          name: "Set up Go 1.20"
-          uses: actions/setup-go@v4.0.0
+        - name: Set up Go
+          uses: actions/setup-go@v3
           with:
-            go-version: 1.20
-        -
-          name: "Check out code into the Go module directory"
+            go-version: '1.20'
+            check-latest: true
+          id: go
+
+        - name: Check out code into the Go module directory
           uses: actions/checkout@v3
         -
           name: "Get dependencies"
@@ -102,17 +102,17 @@ jobs:
       GOARCH: "386"
       GOOS: linux
     steps:
-      -
-        id: go
-        name: "Set up Go 1.20"
+      - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.20
-      -
-        name: "Check out code into the Go module directory"
+          go-version: '1.20'
+          check-latest: true
+        id: go
+
+      - name: Check out code into the Go module directory
         uses: actions/checkout@v3
-      -
-        name: "Get dependencies"
+
+      - name: "Get dependencies"
         id: dependencies
         run: |
             go get -v -t -d ./...
@@ -144,17 +144,17 @@ jobs:
       GOARCH: amd64
       GOOS: linux
     steps:
-      -
-        id: go
-        name: "Set up Go"
+      - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.20
-      -
-        name: "Check out code into the Go module directory"
+          go-version: '1.20'
+          check-latest: true
+        id: go
+
+      - name: Check out code into the Go module directory
         uses: actions/checkout@v3
-      -
-        name: "Get dependencies"
+
+      - name: "Get dependencies"
         id: dependencies
         run: |
             go get -v -t -d ./...
@@ -191,17 +191,17 @@ jobs:
       GOARCH: amd64
       GOOS: windows
     steps:
-      -
-        id: go
-        name: "Set up Go 1.20"
+      - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.20
-      -
-        name: "Check out code into the Go module directory"
+          go-version: '1.20'
+          check-latest: true
+        id: go
+
+      - name: Check out code into the Go module directory
         uses: actions/checkout@v3
-      -
-        name: "Get dependencies"
+        
+      - name: "Get dependencies"
         id: dependencies
         run: |
             go get -v -t -d ./...
