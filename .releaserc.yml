@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MIT
+
 branches: [main]
 repositoryUrl: https://github.com/karl-cardenas-coding/disaster-cli.git
 plugins:

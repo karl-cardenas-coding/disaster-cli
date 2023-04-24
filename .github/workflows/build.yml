@@ -20,13 +20,13 @@ jobs:
     steps:
       -
         id: go
-        name: "Set up Go 1.17"
-        uses: actions/setup-go@v1
+        name: "Set up Go 1.20"
+        uses: actions/setup-go@v4.0.0
         with:
-          go-version: 1.17
+          go-version: 1.20
       -
         name: "Check out code into the Go module directory"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       -
         name: "Get dependencies"
         id: dependencies
@@ -36,8 +36,7 @@ jobs:
                 curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
                 dep ensure
             fi
-            npm install
-            npm install @semantic-release/exec -D
+            npm ci
             npx semantic-release --dry-run
             cat VERSION.env
             source VERSION.env
@@ -62,10 +61,10 @@ jobs:
       steps:
         -
           id: go
-          name: "Set up Go 1.17"
-          uses: actions/setup-go@v1
+          name: "Set up Go 1.20"
+          uses: ctions/setup-go@v4.0.0
           with:
-            go-version: 1.17
+            go-version: 1.20
         -
           name: "Check out code into the Go module directory"
           uses: actions/checkout@v2
@@ -104,10 +103,10 @@ jobs:
     steps:
       -
         id: go
-        name: "Set up Go 1.17"
-        uses: actions/setup-go@v1
+        name: "Set up Go 1.20"
+        uses: ctions/setup-go@v4.0.0
         with:
-          go-version: 1.17
+          go-version: 1.20
       -
         name: "Check out code into the Go module directory"
         uses: actions/checkout@v2
@@ -147,9 +146,9 @@ jobs:
       -
         id: go
         name: "Set up Go"
-        uses: actions/setup-go@v1
+        uses: ctions/setup-go@v4.0.0
         with:
-          go-version: 1.17
+          go-version: 1.20
       -
         name: "Check out code into the Go module directory"
         uses: actions/checkout@v2
@@ -193,10 +192,10 @@ jobs:
     steps:
       -
         id: go
-        name: "Set up Go 1.17"
-        uses: actions/setup-go@v1
+        name: "Set up Go 1.20"
+        uses: ctions/setup-go@v4.0.0
         with:
-          go-version: 1.17
+          go-version: 1.20
       -
         name: "Check out code into the Go module directory"
         uses: actions/checkout@v2
