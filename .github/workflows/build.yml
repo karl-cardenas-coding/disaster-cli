@@ -9,8 +9,35 @@ env:
 
 jobs:
 
+  next-version:
+    name: Next Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.dependencies.outputs.version }}
+    steps:
+
+      - name: "Check out code into the Go module directory"
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: "Get dependencies"
+        id: dependencies
+        run: |
+            npm ci
+            npx semantic-release --dry-run
+            cat VERSION.env
+            source VERSION.env
+            echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
   darwin-amd64:
     name: darwin-amd64
+    if: ${{ needs.next-version.outputs.version != ''}}
+    needs: ["next-version"]
     runs-on: ubuntu-latest
     outputs:
       VERSION: ${{ steps.go.outputs.version }}
@@ -52,7 +79,9 @@ jobs:
           path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   darwin-arm64:
-      name: darwin-amd64
+      name: darwin-arm64
+      if: ${{ needs.next-version.outputs.version != ''}}
+      needs: ["next-version"]
       runs-on: ubuntu-latest
       outputs:
         VERSION: ${{ steps.go.outputs.version }}
@@ -95,6 +124,8 @@ jobs:
 
   linux-386:
     name: linux-386
+    if: ${{ needs.next-version.outputs.version != ''}}
+    needs: ["next-version"]
     runs-on: ubuntu-latest
     outputs:
       VERSION: ${{ steps.go.outputs.version }}
@@ -137,6 +168,8 @@ jobs:
 
   linux-amd64:
     name: linux-amd64
+    if: ${{ needs.next-version.outputs.version != ''}}
+    needs: ["next-version"]
     runs-on: ubuntu-latest
     outputs:
       VERSION: ${{ steps.go.outputs.version }}
@@ -184,6 +217,8 @@ jobs:
 
   windows-amd64:
     name: windows-amd64
+    if: ${{ needs.next-version.outputs.version != ''}}
+    needs: ["next-version"]
     runs-on: ubuntu-latest
     outputs:
       VERSION: ${{ steps.go.outputs.version }}
@@ -225,7 +260,7 @@ jobs:
 
   release:
     name: "Create a release"
-    needs: ["darwin-amd64", "linux-386", "linux-amd64", "windows-amd64", "darwin-arm64"]
+    needs: ["next-version","darwin-amd64", "linux-386", "linux-amd64", "windows-amd64", "darwin-arm64"]
     runs-on: ubuntu-latest
     outputs:
       VERSION: ${{ steps.get-version.outputs.version }}
@@ -245,6 +280,11 @@ jobs:
              echo $VERSION
              echo "::set-output name=version::$VERSION"
 
+
+      - uses: actions/download-artifact@v1
+        with:
+          name: disaster-v${{ steps.get-version.outputs.version }}-darwin-arm64.zip
+          path: ./
 
       - uses: actions/download-artifact@v1
         with:
@@ -270,6 +310,5 @@ jobs:
 
       - name: "release"
         run: |
-             npm install
-             npm install @semantic-release/exec -D
+             npm ci
              npx semantic-release
