@@ -27,7 +27,7 @@ jobs:
   
     - name: Go Tests
       run: |
-        got get && go test ./...
+        go get && go test ./...
 
     - name: Run golangci-lint
       uses: golangci/golangci-lint-action@v3
