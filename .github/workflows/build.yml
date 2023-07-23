@@ -9,17 +9,42 @@ env:
 
 jobs:
 
-  darwin-amd64:
-    name: darwin-amd64
+  next-version:
+    name: Next Version
     runs-on: ubuntu-latest
     outputs:
-      VERSION: ${{ steps.go.outputs.version }}
+      version: ${{ steps.dependencies.outputs.version }}
+    steps:
+
+      - name: "Check out code into the Go module directory"
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: "Get dependencies"
+        id: dependencies
+        run: |
+            npm ci
+            npx semantic-release --dry-run
+            cat VERSION.env
+            source VERSION.env
+            echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+  darwin-amd64:
+    name: darwin-amd64
+    if: ${{ needs.next-version.outputs.version != ''}}
+    needs: ["next-version"]
+    runs-on: ubuntu-latest
     env:
           GOARCH: amd64
           GOOS: darwin
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version: '1.20'
           check-latest: true
@@ -29,39 +54,24 @@ jobs:
         uses: actions/checkout@v3
 
       -
-        name: "Get dependencies"
-        id: dependencies
-        run: |
-            go get -v -t -d ./...
-            if [ -f Gopkg.toml ]; then
-                curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-                dep ensure
-            fi
-            npm ci
-            npx semantic-release --dry-run
-            cat VERSION.env
-            source VERSION.env
-            echo "::set-output name=version::$VERSION"
-
-      -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   darwin-arm64:
-      name: darwin-amd64
+      name: darwin-arm64
+      if: ${{ needs.next-version.outputs.version != ''}}
+      needs: ["next-version"]
       runs-on: ubuntu-latest
-      outputs:
-        VERSION: ${{ steps.go.outputs.version }}
       env:
             GOARCH: arm64
             GOOS: darwin
       steps:
         - name: Set up Go
-          uses: actions/setup-go@v3
+          uses: actions/setup-go@v4
           with:
             go-version: '1.20'
             check-latest: true
@@ -69,41 +79,25 @@ jobs:
 
         - name: Check out code into the Go module directory
           uses: actions/checkout@v3
-        -
-          name: "Get dependencies"
-          id: dependencies
-          run: |
-              go get -v -t -d ./...
-              if [ -f Gopkg.toml ]; then
-                  curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-                  dep ensure
-              fi
-              npm ci
-              npm install @semantic-release/exec -D
-              npx semantic-release --dry-run
-              cat VERSION.env
-              source VERSION.env
-              echo "::set-output name=version::$VERSION"
 
-        -
-          name: create
-          run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        - name: create
+          run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
         - uses: actions/upload-artifact@v1
           with:
-            name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-            path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+            name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+            path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   linux-386:
     name: linux-386
+    if: ${{ needs.next-version.outputs.version != ''}}
+    needs: ["next-version"]
     runs-on: ubuntu-latest
-    outputs:
-      VERSION: ${{ steps.go.outputs.version }}
     env:
       GOARCH: "386"
       GOOS: linux
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version: '1.20'
           check-latest: true
@@ -112,40 +106,25 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v3
 
-      - name: "Get dependencies"
-        id: dependencies
-        run: |
-            go get -v -t -d ./...
-            if [ -f Gopkg.toml ]; then
-                curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-                dep ensure
-            fi
-            npm install
-            npm install @semantic-release/exec -D
-            npx semantic-release --dry-run
-            cat VERSION.env
-            source VERSION.env
-            echo "::set-output name=version::$VERSION"
-
       -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   linux-amd64:
     name: linux-amd64
+    if: ${{ needs.next-version.outputs.version != ''}}
+    needs: ["next-version"]
     runs-on: ubuntu-latest
-    outputs:
-      VERSION: ${{ steps.go.outputs.version }}
     env:
       GOARCH: amd64
       GOOS: linux
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version: '1.20'
           check-latest: true
@@ -154,45 +133,26 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v3
 
-      - name: "Get dependencies"
-        id: dependencies
-        run: |
-            go get -v -t -d ./...
-            if [ -f Gopkg.toml ]; then
-                curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-                dep ensure
-            fi
-            npm install
-            npm install @semantic-release/exec -D
-            npx semantic-release --dry-run
-            cat VERSION.env
-            source VERSION.env
-            echo "::set-output name=version::$VERSION"
-
       -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=v${{steps.dependencies.outputs.VERSION}}'" -o=disaster -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
+        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=v${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-      - uses: actions/upload-artifact@v1
-        with:
-          name: VERSION.env
-          path: VERSION.env
+          name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
 
 
   windows-amd64:
     name: windows-amd64
+    if: ${{ needs.next-version.outputs.version != ''}}
+    needs: ["next-version"]
     runs-on: ubuntu-latest
-    outputs:
-      VERSION: ${{ steps.go.outputs.version }}
     env:
       GOARCH: amd64
       GOOS: windows
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version: '1.20'
           check-latest: true
@@ -201,50 +161,26 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v3
         
-      - name: "Get dependencies"
-        id: dependencies
-        run: |
-            go get -v -t -d ./...
-            if [ -f Gopkg.toml ]; then
-                curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-                dep ensure
-            fi
-            npm install
-            npm install @semantic-release/exec -D
-            npx semantic-release --dry-run
-            cat VERSION.env
-            source VERSION.env
-            echo "::set-output name=version::$VERSION"
       -
         name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{steps.dependencies.outputs.VERSION}}'" -o=disaster.exe -v && zip disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster.exe
+        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster.exe -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster.exe
       - uses: actions/upload-artifact@v1
         with:
-          name: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-v${{steps.dependencies.outputs.VERSION}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
+          path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
 
   release:
     name: "Create a release"
-    needs: ["darwin-amd64", "linux-386", "linux-amd64", "windows-amd64", "darwin-arm64"]
+    needs: ["next-version","darwin-amd64", "linux-386", "linux-amd64", "windows-amd64", "darwin-arm64"]
     runs-on: ubuntu-latest
-    outputs:
-      VERSION: ${{ steps.get-version.outputs.version }}
     steps:
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
-    
+        uses: actions/checkout@v3
+
       - uses: actions/download-artifact@v1
         with:
-          name: VERSION.env
-          path: ./       
-
-      - name: Get Version
-        id: get-version
-        run: |
-             source VERSION.env
-             echo $VERSION
-             echo "::set-output name=version::$VERSION"
-
+          name: disaster-v${{ steps.get-version.outputs.version }}-darwin-arm64.zip
+          path: ./
 
       - uses: actions/download-artifact@v1
         with:
@@ -270,6 +206,5 @@ jobs:
 
       - name: "release"
         run: |
-             npm install
-             npm install @semantic-release/exec -D
+             npm ci
              npx semantic-release

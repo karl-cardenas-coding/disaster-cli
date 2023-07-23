@@ -9,6 +9,11 @@
 A Golang based CLI tool for determining natural catastrophe near you, or a location specified. [Earth Observatory Natural Event Tracker (EONET)](https://eonet.sci.gsfc.nasa.gov/what-is-eonet) is the source for all Data.
 
 
+<p align="center">
+<img src="/static/demo.gif" alt="drawing" width="800"/>
+</p>
+
+
 ## Installation
 Disaster-CLI is distributed as a single binary. [Download](https://github.com/karl-cardenas-coding/disaster-cli/releases) the binary and install Disaster-CLI by unzipping it and moving it to a directory included in your system's [PATH](https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them). `~/bin` is the recommended path for UNIX/LINUX environments. 
 
