@@ -177,29 +177,29 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: disaster-v${{ steps.get-version.outputs.version }}-darwin-arm64.zip
           path: ./
 
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4.1.7
         with:
             name: disaster-v${{ steps.get-version.outputs.version }}-darwin-amd64.zip
             path: ./
 
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4.1.7
         with:
             name: disaster-v${{ steps.get-version.outputs.version }}-linux-386.zip
             path: ./
 
 
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4.1.7
         with:
             name: disaster-v${{ steps.get-version.outputs.version }}-linux-amd64.zip
             path: ./
 
             
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4.1.7
         with:
             name: disaster-v${{ steps.get-version.outputs.version }}-windows-amd64.zip
             path: ./
