@@ -6,7 +6,6 @@ package library
 import (
 	"encoding/json"
 	"net/http"
-	"time"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -14,17 +13,6 @@ import (
 const (
 	ISSUE_MSG = " Please open up a Github issue to report this error! https://github.com/karl-cardenas-coding/disaster-cli"
 )
-
-var disasterClient = &http.Client{
-	Timeout: 10 * time.Second,
-	Transport: &http.Transport{
-		MaxIdleConns:          10,
-		ResponseHeaderTimeout: 10 * time.Second,
-		IdleConnTimeout:       5 * time.Second,
-		DisableCompression:    true,
-		ForceAttemptHTTP2:     true,
-	},
-}
 
 func getJson(url string, target interface{}) error {
 	req, err := http.NewRequest("GET", url, nil)
@@ -36,6 +24,12 @@ func getJson(url string, target interface{}) error {
 		"Content-Type":    []string{`application/json; charset=utf-8`},
 		"Accept-Encoding": []string{"gzip, deflate, br"},
 		"Accept":          []string{"application/json"},
+	}
+
+	disasterClient := &http.Client{
+		Transport: &http.Transport{
+			ForceAttemptHTTP2: true,
+		},
 	}
 
 	r, err := disasterClient.Do(req)

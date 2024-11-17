@@ -6,6 +6,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GO_VERSION: '1.23'
 
 jobs:
 
@@ -17,12 +18,12 @@ jobs:
     steps:
 
       - name: "Check out code into the Go module directory"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
 
       - name: "Get dependencies"
@@ -44,19 +45,19 @@ jobs:
           GOOS: darwin
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.20'
+          go-version: ${{ env.GO_VERSION }}
           check-latest: true
         id: go
 
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       -
         name: create
         run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
           path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -71,18 +72,18 @@ jobs:
             GOOS: darwin
       steps:
         - name: Set up Go
-          uses: actions/setup-go@v4
+          uses: actions/setup-go@v5
           with:
-            go-version: '1.20'
+            go-version:  ${{ env.GO_VERSION }}
             check-latest: true
           id: go
 
         - name: Check out code into the Go module directory
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
 
         - name: create
           run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
-        - uses: actions/upload-artifact@v1
+        - uses: actions/upload-artifact@v4
           with:
             name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
             path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -97,19 +98,19 @@ jobs:
       GOOS: linux
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.20'
+          go-version:  ${{ env.GO_VERSION }}
           check-latest: true
         id: go
 
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       -
         name: create
         run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
-      - uses: actions/upload-artifact@v1
+      - uses: actions/checkout@v4
         with:
           name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
           path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -124,19 +125,19 @@ jobs:
       GOOS: linux
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.20'
+          go-version:  ${{ env.GO_VERSION }}
           check-latest: true
         id: go
 
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       -
         name: create
         run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=v${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
-      - uses: actions/upload-artifact@v1
+      - uses: actions/checkout@v4
         with:
           name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
           path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -152,19 +153,19 @@ jobs:
       GOOS: windows
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.20'
+          go-version:  ${{ env.GO_VERSION }}
           check-latest: true
         id: go
 
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         
       -
         name: create
         run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster.exe -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster.exe
-      - uses: actions/upload-artifact@v1
+      - uses: actions/checkout@v4
         with:
           name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
           path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
@@ -175,7 +176,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - uses: actions/download-artifact@v1
         with:

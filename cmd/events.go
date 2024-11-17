@@ -9,7 +9,7 @@ import (
 	"os"
 
 	"github.com/jedib0t/go-pretty/v6/table"
-	"github.com/karl-cardenas-coding/disaster-cli/library"
+	library "github.com/karl-cardenas-coding/disaster-cli/internal"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )

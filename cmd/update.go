@@ -18,7 +18,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/dustin/go-humanize"
-	"github.com/karl-cardenas-coding/disaster-cli/library"
+	library "github.com/karl-cardenas-coding/disaster-cli/internal"
 	"github.com/spf13/cobra"
 )
 
@@ -230,7 +230,6 @@ func determineOS() string {
 	return output
 }
 
-//
 // https://golangcode.com/download-a-file-with-progress/
 // WriteCounter counts the number of bytes written to it. It implements to the io.Writer interface
 // and we can pass this into io.TeeReader() which will report progress on each write cycle.

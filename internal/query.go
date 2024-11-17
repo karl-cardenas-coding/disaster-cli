@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"time"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -26,11 +25,7 @@ func QueryEventAPI(apikey string) EventResponse {
 
 	client := &http.Client{
 		Transport: &http.Transport{
-			MaxIdleConns:          10,
-			ResponseHeaderTimeout: 10 * time.Second,
-			IdleConnTimeout:       5 * time.Second,
-			DisableCompression:    true,
-			ForceAttemptHTTP2:     true,
+			ForceAttemptHTTP2: true,
 		},
 	}
 
@@ -74,11 +69,7 @@ func QueryCategoriesAPI(apikey string, category string) CategoriesResponse {
 
 	client := &http.Client{
 		Transport: &http.Transport{
-			MaxIdleConns:          10,
-			ResponseHeaderTimeout: 10 * time.Second,
-			IdleConnTimeout:       5 * time.Second,
-			DisableCompression:    true,
-			ForceAttemptHTTP2:     true,
+			ForceAttemptHTTP2: true,
 		},
 	}
 

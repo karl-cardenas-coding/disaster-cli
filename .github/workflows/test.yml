@@ -5,7 +5,8 @@ on:
     branches: [ main ]
 env:
   GITHUB_TOKEN: ${{ github.token }}
-  LINT_VERSION: "1.53.3"
+  LINT_VERSION: "1.62.0"
+  GO_VERSION: '1.23'
 
 jobs:
   test:
@@ -16,19 +17,19 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.20'
+        go-version: ${{ env.GO_VERSION }}
         check-latest: true
       id: go
 
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
   
     - name: Go Tests
       run: |
         go get && go test ./...
 
     - name: Run golangci-lint
-      uses: golangci/golangci-lint-action@v3
+      uses: golangci/golangci-lint-action@v6
       with:  
         args: -v
 
@@ -40,12 +41,12 @@ jobs:
     steps:
 
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Go
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v5
       with:
-        go-version: '1.20'
+        go-version: ${{ env.GO_VERSION }}
         check-latest: true
       id: go
 
@@ -83,7 +84,7 @@ jobs:
         chmod +x disaster
         ./disaster version
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: test-results
         path: go.txt
