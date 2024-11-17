@@ -1,5 +1,7 @@
-# Copyright (c) karl-cardenas-coding
-# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MIT
+
+
 
 version: 2
 
@@ -8,7 +10,8 @@ before:
     - go mod tidy
 
 builds:
-  - id: primary
+  - id: disaster
+    binary: disaster
     ldflags:
       - -s -w -X github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString={{.Version}}
     env:
@@ -31,9 +34,13 @@ upx:
 
 
 archives:
-  - format: zip
+  - 
+    builds:
+      - disaster
+    format: zip
     name_template: >-
-      {{ .ProjectName }}_
+      disaster_
+      {{ .Version }}_
       {{- tolower .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
