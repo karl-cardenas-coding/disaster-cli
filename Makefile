@@ -1,3 +1,5 @@
+.PHONY: license tests
+
 license:
 	@echo "Applying license headers..."
 	 copywrite headers

@@ -1,211 +1,110 @@
-name: Release to Production
+name: Release
 
 on:
-  push:
-    branches: [ main ]
+    push:
+      branches: [main]
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  GO_VERSION: '1.23'
+
+permissions:
+  contents: write
+  packages: write
+  attestations: write
+
+
+env: 
+  SVU_VERSION: "2.2.0"
+  GO_VERSION: "1.23"
+  UPX_VERSION: "4.2.4"
 
 jobs:
-
-  next-version:
-    name: Next Version
+  tag:
+    name: Determine Version
     runs-on: ubuntu-latest
+
     outputs:
-      version: ${{ steps.dependencies.outputs.version }}
+        VERSION: ${{ steps.tag.outputs.VERSION }}
+        PREV_VERSION: ${{ steps.tag.outputs.PREV_VERSION }}
+        SAME_VERSION: ${{ steps.tag.outputs.SAME_VERSION }}
+
+
     steps:
+     - uses: actions/checkout@v4
+       with:
+        fetch-depth: 0
 
-      - name: "Check out code into the Go module directory"
-        uses: actions/checkout@v4
+     - name: get-tags
+       run: git fetch --force --tags
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+     - name: Get svu
+       run: |
+         URL="https://github.com/caarlos0/svu/releases/download/v${SVU_VERSION}/svu_${SVU_VERSION}_linux_amd64.tar.gz"
+         wget --quiet $URL --output-document svu.tar.gz
+         tar -xzf svu.tar.gz
+         chmod +x svu
+         sudo mv svu /usr/local/bin/
+         svu --version
 
-      - name: "Get dependencies"
-        id: dependencies
-        run: |
-            npm ci
-            npx semantic-release --dry-run
-            cat VERSION.env
-            source VERSION.env
-            echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+     - id: tag
+       run: |
+           VERSION=$(svu next --tag-mode all-branches)
+           PREV_VERSION=$(svu current --tag-mode all-branches)
+ 
+           if [ "$VERSION" = "$PREV_VERSION" ]; then
+             echo "no new version detected"
+             SAME_VERSION=true
+             echo "SAME_VERSION=true" >> $GITHUB_OUTPUT
+           else
+             echo "new version detected"
+             SAME_VERSION=false
+             echo "SAME_VERSION=false" >> $GITHUB_OUTPUT
+ 
+             # Check if the tag already exists before creating it
+             if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+               echo "Tag v$VERSION already exists, skipping tag creation."
+             else
+               git tag "$VERSION"
+               git push --tags
+             fi
+           fi
+ 
+           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+           echo "PREV_VERSION=$PREV_VERSION" >> $GITHUB_OUTPUT
 
-  darwin-amd64:
-    name: darwin-amd64
-    if: ${{ needs.next-version.outputs.version != ''}}
-    needs: ["next-version"]
+  goreleaser:
+    name: Release
+    needs: [tag]
+    if: ${{ needs.tag.outputs.SAME_VERSION == 'false' }}
     runs-on: ubuntu-latest
     env:
-          GOARCH: amd64
-          GOOS: darwin
+      GORELEASER_CURRENT_TAG: ${{ needs.tag.outputs.VERSION }}
+      GORELEASER_PREVIOUS_TAG: ${{ needs.tag.outputs.PREV_VERSION }}
     steps:
-      - name: Set up Go
-        uses: actions/setup-go@v5
+      - uses: actions/checkout@v4
+        with:
+         fetch-depth: 0
+
+      - run: git fetch --force --tags
+
+      - uses: actions/setup-go@v5.0.2
         with:
           go-version: ${{ env.GO_VERSION }}
           check-latest: true
-        id: go
 
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v4
-
-      -
-        name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
-      - uses: actions/upload-artifact@v4
-        with:
-          name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-
-  darwin-arm64:
-      name: darwin-arm64
-      if: ${{ needs.next-version.outputs.version != ''}}
-      needs: ["next-version"]
-      runs-on: ubuntu-latest
-      env:
-            GOARCH: arm64
-            GOOS: darwin
-      steps:
-        - name: Set up Go
-          uses: actions/setup-go@v5
-          with:
-            go-version:  ${{ env.GO_VERSION }}
-            check-latest: true
-          id: go
-
-        - name: Check out code into the Go module directory
-          uses: actions/checkout@v4
-
-        - name: create
-          run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
-        - uses: actions/upload-artifact@v4
-          with:
-            name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-            path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-
-  linux-386:
-    name: linux-386
-    if: ${{ needs.next-version.outputs.version != ''}}
-    needs: ["next-version"]
-    runs-on: ubuntu-latest
-    env:
-      GOARCH: "386"
-      GOOS: linux
-    steps:
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version:  ${{ env.GO_VERSION }}
-          check-latest: true
-        id: go
-
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v4
-
-      -
-        name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
-      - uses: actions/checkout@v4
-        with:
-          name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-
-  linux-amd64:
-    name: linux-amd64
-    if: ${{ needs.next-version.outputs.version != ''}}
-    needs: ["next-version"]
-    runs-on: ubuntu-latest
-    env:
-      GOARCH: amd64
-      GOOS: linux
-    steps:
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version:  ${{ env.GO_VERSION }}
-          check-latest: true
-        id: go
-
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v4
-
-      -
-        name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=v${{needs.next-version.outputs.version}}'" -o=disaster -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster
-      - uses: actions/checkout@v4
-        with:
-          name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-
-
-  windows-amd64:
-    name: windows-amd64
-    if: ${{ needs.next-version.outputs.version != ''}}
-    needs: ["next-version"]
-    runs-on: ubuntu-latest
-    env:
-      GOARCH: amd64
-      GOOS: windows
-    steps:
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version:  ${{ env.GO_VERSION }}
-          check-latest: true
-        id: go
-
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v4
-        
-      -
-        name: create
-        run: go build -ldflags="-X 'github.com/karl-cardenas-coding/disaster-cli/cmd.VersionString=${{needs.next-version.outputs.version}}'" -o=disaster.exe -v && zip disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip disaster.exe
-      - uses: actions/checkout@v4
-        with:
-          name: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-          path: disaster-v${{needs.next-version.outputs.version}}-${{env.GOOS}}-${{env.GOARCH}}.zip
-
-  release:
-    name: "Create a release"
-    needs: ["next-version","darwin-amd64", "linux-386", "linux-amd64", "windows-amd64", "darwin-arm64"]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v4
-
-      - uses: actions/download-artifact@v1
-        with:
-          name: disaster-v${{ steps.get-version.outputs.version }}-darwin-arm64.zip
-          path: ./
-
-      - uses: actions/download-artifact@v1
-        with:
-            name: disaster-v${{ steps.get-version.outputs.version }}-darwin-amd64.zip
-            path: ./
-
-      - uses: actions/download-artifact@v1
-        with:
-            name: disaster-v${{ steps.get-version.outputs.version }}-linux-386.zip
-            path: ./
-
-
-      - uses: actions/download-artifact@v1
-        with:
-            name: disaster-v${{ steps.get-version.outputs.version }}-linux-amd64.zip
-            path: ./
-
-            
-      - uses: actions/download-artifact@v1
-        with:
-            name: disaster-v${{ steps.get-version.outputs.version }}-windows-amd64.zip
-            path: ./
-
-      - name: "release"
+      - name: Get UPX
         run: |
-             npm ci
-             npx semantic-release
+            URL="https://github.com/upx/upx/releases/download/v${UPX_VERSION}/upx-${UPX_VERSION}-amd64_linux.tar.xz"
+            wget --quiet $URL --output-document upx.tar.xz
+            tar -xf upx.tar.xz
+            chmod +x upx-${UPX_VERSION}-amd64_linux/upx
+            sudo mv upx-${UPX_VERSION}-amd64_linux/upx /usr/local/bin/
+            rm -rf upx.tar.xz upx-${UPX_VERSION}-amd64_linux
+            upx --version
+      
+      - uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          args: release --clean
+          version: '~> v2'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
